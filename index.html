@@ -1,238 +1,204 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#794de0">
+<meta name="theme-color" content="#7547d8">
 <title>Little Stars Story World</title>
 <style>
+:root{--purple:#7547d8;--pink:#ff78ad;--yellow:#ffd45c;--blue:#65c9f2;--green:#63c99b;--ink:#352653;--paper:#fffdf8}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#b8edff,#fff0d9);color:#45336c}
-header{text-align:center;padding:22px 12px;background:linear-gradient(120deg,#794de0,#ed80b5);color:white;border-radius:0 0 30px 30px}
-header h1{font-size:28px;margin:5px}
-header p{margin:5px}
-main{max-width:760px;margin:auto;padding:15px}
-.welcome{text-align:center}
-.characters{display:flex;justify-content:center;gap:15px;font-size:60px;margin:18px 0}
-.character{animation:bounce 2s infinite;display:inline-block}
-.character:nth-child(2){animation-delay:.4s}.character:nth-child(3){animation-delay:.8s}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-h2{text-align:center;color:#7146c9}
-.card{background:white;border-radius:22px;padding:17px;margin:14px 0;box-shadow:0 5px 15px #57418b20}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-button,select{border:0;border-radius:14px;padding:13px;font-size:16px;cursor:pointer}
-button{background:#7950d9;color:white;font-weight:bold}
-button:active{transform:scale(.97)}
-button:disabled{opacity:.55;cursor:not-allowed;transform:none}
-.menu button{width:100%;min-height:85px;font-size:18px}
-.purple{background:#874de2}.green{background:#20ad79}.orange{background:#f29a27}.blue{background:#239bdf}.pink{background:#e84c9d}
-select{background:#eee6ff;color:#45336c;max-width:100%}
-.screen{display:none;text-align:center}.screen.active{display:block}
-.big{font-size:62px;margin:12px}
-.storytext{font-size:19px;line-height:1.8;text-align:left}
-.option{display:block;width:100%;margin:8px 0;background:#f0eaff;color:#563c8a}
-.result{font-size:18px;font-weight:bold;min-height:34px;margin:12px}
-.stars{background:#fff1a9;padding:12px;border-radius:22px;text-align:center;font-weight:bold;font-size:19px}
-footer{text-align:center;padding:25px;color:#7655a0}
-.small{font-size:14px;color:#725e91}
-.game-card{background:#f8f4ff;color:#563c8a;border:2px solid #eee4ff;min-height:112px}
-.game-card span{display:block;font-size:30px;margin-bottom:5px}
-.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
-.memory-card{background:#8b5add;color:white;min-height:68px;font-size:28px;padding:8px}
-.memory-card.revealed,.memory-card.matched{background:#e9f8f0;color:#2b7959}
-.memory-card.matched{border:2px solid #20ad79}
-.choice-row{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:14px 0}
-.choice{min-width:66px;min-height:58px;font-size:25px;background:#f0eaff;color:#563c8a}
-.object-row{font-size:38px;letter-spacing:4px;line-height:1.8}
-.story-actions,.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
-.secondary{background:#e9e1ff;color:#563c8a}
-.success{color:#16845e}.warning{color:#b66b00}
-hr{border:0;border-top:1px solid #eee;margin:18px 0}
-@media(max-width:420px){.memory-grid{gap:5px}.memory-card{min-height:58px;font-size:24px;padding:5px}.grid{gap:8px}.menu button{font-size:16px}}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(145deg,#f5edff,#e8f8ff 55%,#fff4e4);min-height:100vh}
+button,select{font:inherit}
+button{border:0;cursor:pointer}
+header{background:linear-gradient(110deg,#7547d8,#a45be2);color:white;padding:18px 16px 22px;border-radius:0 0 28px 28px;box-shadow:0 5px 18px #4c27852b}
+.top{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}.logo{font-size:40px;background:#ffffff25;border-radius:18px;padding:7px}.brand h1{font-size:clamp(20px,4vw,29px);margin:0}.brand p{margin:3px 0 0;font-size:13px;opacity:.9}
+.starbox{background:#fff;color:#6740b5;border-radius:18px;padding:10px 15px;font-weight:900;box-shadow:0 3px 0 #4b2b8a33}
+main{max-width:1100px;margin:18px auto;padding:0 14px 40px}
+.welcome{background:#fff;border-radius:24px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 7px 25px #563a8510;flex-wrap:wrap}
+.welcome h2{margin:0 0 5px;font-size:22px}.welcome p{margin:0;color:#766b88}.mascots{font-size:40px;white-space:nowrap}
+.agebar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.agebtn,.navbtn{background:#fff;color:#634a85;padding:10px 14px;border-radius:14px;font-weight:800;box-shadow:0 3px 0 #dcd0ef}
+.agebtn.active{background:var(--yellow);color:#553a78;box-shadow:0 3px 0 #e5b843}
+nav{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:9px;margin:14px 0 18px}
+.navbtn{display:flex;align-items:center;justify-content:center;gap:7px;min-height:48px}
+.navbtn.active{background:var(--purple);color:white;box-shadow:0 3px 0 #4d2b9c}
+.panel{background:#fff;border-radius:24px;padding:18px;box-shadow:0 7px 25px #563a8510;min-height:250px}
+.panel h2{margin:0 0 6px;font-size:24px}.sub{color:#786e89;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:13px}
+.tile{background:#fbf8ff;border:2px solid #eee5ff;border-radius:19px;padding:15px;display:flex;flex-direction:column;gap:8px}
+.tile .emoji{font-size:34px}.tile h3{margin:0;font-size:17px}.tile p{margin:0;color:#766b88;font-size:14px;line-height:1.45}
+.primary{background:var(--purple);color:#fff;padding:11px 15px;border-radius:13px;font-weight:800;margin-top:auto}
+.secondary{background:#f0eaff;color:#603ca4;padding:10px 13px;border-radius:12px;font-weight:800}
+.gold{background:#fff3c8;color:#785400}.pink{background:#ffe6f0;color:#9b3866}
+.row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+.storytext{white-space:pre-wrap;line-height:1.8;font-size:16px;background:#fffaf0;border-radius:18px;padding:18px;margin:14px 0}
+.storyhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+select{padding:10px;border:2px solid #e5daf7;border-radius:12px;background:white;color:var(--ink)}
+.progress{height:10px;background:#eee7f8;border-radius:99px;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;background:linear-gradient(90deg,#ffb84f,#ff79ad);width:0}
+.gamequestion{font-size:21px;font-weight:850;margin:20px 0}
+.answergrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:10px}
+.answer{background:#f2ecff;border:2px solid #e3d6ff;border-radius:15px;padding:15px;font-weight:800;color:#56358d;min-height:54px}
+.answer:active,.primary:active,.navbtn:active{transform:scale(.98)}
+.feedback{padding:12px;border-radius:13px;margin:12px 0;font-weight:800;background:#fff3c8}
+.shopitem{background:#fff9ed;border-color:#ffe8b7}
+.cost{font-weight:900;color:#8a5b00}
+.treasure{background:#f5f0ff;border-radius:17px;padding:14px;margin:12px 0}
+.character{font-size:75px;text-align:center;background:linear-gradient(135deg,#e9f7ff,#fff0f6);border-radius:20px;padding:22px}
+.palette{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.swatch{width:34px;height:34px;border-radius:50%;border:3px solid white;box-shadow:0 0 0 2px #d9d0e7}
+.paintsvg{width:100%;max-width:450px;display:block;margin:10px auto;background:#f9fbff;border-radius:18px;border:2px dashed #d9ccef;touch-action:manipulation}
+.paintable{fill:#fff;stroke:#46395b;stroke-width:4;stroke-linejoin:round;cursor:pointer}
+.small{font-size:12px;color:#82768f}.pill{display:inline-block;padding:5px 9px;background:#f0eaff;border-radius:99px;font-size:12px;font-weight:800}
+footer{text-align:center;color:#8a7d99;font-size:12px;padding:20px}
+.hidden{display:none!important}
+@media(max-width:520px){header{padding:14px 13px 18px}.panel{padding:14px}.welcome{padding:14px}.mascots{font-size:32px}.navbtn{font-size:13px;padding:9px 5px}}
 </style>
 </head>
 <body>
-<header>
-<div style="font-size:36px">🌈 ⭐ 🧸</div>
-<h1>Little Stars Story World</h1>
-<p>Play • Learn • Imagine • Grow</p>
-</header>
+<header><div class="top">
+ <div class="brand"><div class="logo">🌟</div><div><h1>Little Stars Story World</h1><p>Read • Play • Learn • Shine!</p></div></div>
+ <div class="starbox">⭐ <span id="starCount">0</span> Stars</div>
+</div></header>
 <main>
-<section id="home" class="screen active">
- <div class="welcome">
-  <h2>Welcome, Little Star! 🌟</h2>
-  <p>Choose your adventure today!</p>
-  <select id="age" aria-label="Choose age group" onchange="setAge()">
-   <option value="tots">Little Tots (2–4 years)</option>
-   <option value="bright" selected>Bright Stars (5–7 years)</option>
-   <option value="super">Super Stars (8–12 years)</option>
-  </select>
+ <section class="welcome">
+  <div><h2>Hello, Little Star! 🌈</h2><p>Every story you read and every challenge you complete helps you shine.</p></div>
+  <div class="mascots">🧸 🐰 🐵</div>
+ </section>
+ <div class="agebar" aria-label="Choose age group">
+  <button class="agebtn active" data-age="tots" onclick="setAge('tots')">🌱 Little Tots (2–4)</button>
+  <button class="agebtn" data-age="bright" onclick="setAge('bright')">🌈 Bright Stars (5–7)</button>
+  <button class="agebtn" data-age="super" onclick="setAge('super')">🚀 Super Stars (8–12)</button>
  </div>
- <div class="characters"><span class="character">🧸</span><span class="character">🐰</span><span class="character">🐵</span></div>
- <div class="stars">⭐ Your Stars: <span id="points">0</span><div class="small">Stars are awarded once for each completed activity.</div></div>
- <div class="card menu"><div class="grid">
-  <button class="purple" onclick="openScreen('stories')">📚<br>Stories</button>
-  <button class="green" onclick="openScreen('games')">🎮<br>Games</button>
-  <button class="orange" onclick="openScreen('puzzles')">🧩<br>Puzzles</button>
-  <button class="blue" onclick="openScreen('quiz')">🏆<br>Quizzes</button>
-  <button class="pink" onclick="openScreen('songs')">🎵<br>Songs & Dance</button>
-  <button class="purple" onclick="openScreen('africa')">🌍<br>African Tales</button>
- </div></div>
- <div class="card"><h2>🌟 Today's Special</h2><div class="big">🐰</div><h3 id="featuredStoryTitle">Story of the Day</h3><button onclick="showStory(0)">Read Story</button></div>
-</section>
-
-<section id="stories" class="screen card">
- <h2>📚 Story Library</h2>
- <p id="storyAgeNote" class="small">Stories selected for your age group.</p>
- <div id="storyList"></div>
- <div id="storybox" style="display:none">
-  <div class="big" id="storyemoji">🐰</div><h3 id="storytitle"></h3><p class="storytext" id="storytext"></p>
-  <div class="story-actions">
-   <button onclick="readStory()">🔊 Read to Me</button><button class="secondary" onclick="stopReading()">⏹ Stop</button>
-   <button class="green" onclick="completeActivity('story-'+current,'Story completed')">⭐ I finished the story</button>
-  </div>
-  <p class="small">You can read by yourself or ask a grown-up to read with you.</p>
- </div>
- <button onclick="goHome()">🏠 Home</button>
-</section>
-
-<section id="games" class="screen card">
- <h2>🎮 Little Stars Game Zone</h2>
- <p>Choose a game and have fun learning!</p>
- <div id="gameMenu" class="grid">
-  <button class="game-card" onclick="startAnimal()"><span>🐱</span>Animal Sounds</button>
-  <button class="game-card" onclick="startMemory()"><span>🧠</span>Memory Match</button>
-  <button class="game-card" onclick="startCounting()"><span>🍎</span>Count the Objects</button>
-  <button class="game-card" onclick="startAlphabet()"><span>🔤</span>Letter Match</button>
-  <button class="game-card" onclick="startShadow()"><span>🐘</span>Guess the Animal</button>
-  <button class="game-card" onclick="startWord()"><span>📝</span>Word Builder</button>
- </div>
- <div id="gamePlay" style="display:none">
-  <hr><h3 id="gameTitle"></h3><p id="gameInstruction"></p>
-  <div id="gameContent"></div><div class="result" id="gameResult" aria-live="polite"></div>
-  <div class="controls"><button class="secondary" onclick="backToGames()">🎮 All Games</button><button onclick="goHome()">🏠 Home</button></div>
- </div>
- <button onclick="goHome()">🏠 Home</button>
-</section>
-
-<section id="puzzles" class="screen card">
- <h2>🧩 Number Puzzle</h2><p>What number comes after 4?</p>
- <div class="grid"><button class="option" onclick="puzzle(false)">3</button><button class="option" onclick="puzzle(true)">5</button><button class="option" onclick="puzzle(false)">7</button><button class="option" onclick="puzzle(false)">9</button></div>
- <div class="result" id="puzzleResult"></div><button onclick="resetPuzzle()">🔄 Try Again</button><button onclick="goHome()">🏠 Home</button>
-</section>
-
-<section id="quiz" class="screen card">
- <h2>🏆 Little Star Quiz</h2><p id="quizQuestion">How many legs does a dog have?</p>
- <div class="grid" id="quizOptions">
-  <button class="option" onclick="answer(false)">2</button><button class="option" onclick="answer(true)">4</button><button class="option" onclick="answer(false)">6</button><button class="option" onclick="answer(false)">8</button>
- </div>
- <div class="result" id="quizResult"></div><button onclick="resetQuiz()">🔄 Try Again</button><button onclick="goHome()">🏠 Home</button>
-</section>
-
-<section id="songs" class="screen card">
- <h2>🎵 Sing & Dance!</h2><div class="characters"><span class="character">🧸</span><span class="character">🐰</span><span class="character">🐵</span></div>
- <h3>Little Stars, Shine Bright!</h3>
- <p id="lyricLine" style="font-size:21px;font-weight:bold;min-height:56px">Clap your hands, jump up high!</p>
- <p>Play the original tune and sing along with your family!</p>
- <button onclick="playSong()">▶ Play melody & lyrics</button><button class="secondary" onclick="stopSong()">⏹ Stop</button>
- <p class="small">This version plays a simple instrumental melody with timed lyrics. Sung human/choir vocals will be added as a separate audio recording; this button does not pretend spoken narration is singing.</p>
- <button onclick="goHome()">🏠 Home</button>
-</section>
-
-<section id="africa" class="screen card">
- <h2>🌍 African Story World</h2><div class="big">🥁 🦁 🌴</div><h3>Discover Africa!</h3>
- <p>Explore African animals, traditions, folktales and beautiful cultures.</p>
- <button class="option" onclick="showAfrican()">📖 The Tortoise and His Wisdom</button>
- <div id="africanStory" style="display:none">
-  <p class="storytext" id="africanText"></p>
-  <div class="story-actions">
-   <button onclick="readAfrican()">🔊 Read to Me</button><button class="secondary" onclick="stopReading()">⏹ Stop</button>
-   <button class="green" onclick="completeActivity('african-tortoise','African tale completed')">⭐ I finished reading</button>
-  </div>
- </div>
- <button onclick="goHome()">🏠 Home</button>
-</section>
+ <nav id="navigation"></nav>
+ <section id="app" class="panel"></section>
 </main>
-<footer>Made with ❤️ for every Little Star!<br>Dream Big • Shine Bright</footer>
-
+<footer>Made with love for curious little minds. Progress and stars are saved on this device.</footer>
 <script>
-const STORAGE_KEY='littleStarsProgressV2';
-let progress={stars:0,completed:[]};
-try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(saved&&Array.isArray(saved.completed)){progress=saved;}}catch(e){}
-let current=0, age='bright', activeGame='', memoryDeck=[],memoryOpen=[],memoryMatches=0,gameRound=0,gameDone=false;
-const storyCollections={
- tots:[
-  ["🐰","Bunny Finds a Carrot","Bunny sees a carrot. It is orange! Bunny hops to the carrot. Crunch, crunch! Bunny is happy. The End!"],
-  ["🐻","Teddy's Big Hug","Teddy sees Bunny. Bunny feels sad. Teddy gives Bunny a big hug. Now they both smile. The End!"],
-  ["🐵","Monkey Says Hello","Momo the monkey waves. Hello, bird! Hello, elephant! His friends wave back. What a happy day! The End!"],
-  ["🐘","Baby Elephant's Splash","Baby Elephant finds a little pond. Splash! He plays in the water and cools down in the sun. The End!"]
- ],
- bright:[
-  ["🐰","The Brave Little Rabbit","Ruby the little rabbit heard a bird crying in the forest. It had fallen from its nest. Ruby called her friends and together they helped the bird return home. The bird was happy. Ruby learned that even little friends can do big things. The End!"],
-  ["🐵","Monkey's Big Adventure","Milo the monkey loved exploring. One day he followed a colourful butterfly into a magical garden. He found beautiful flowers and singing birds. He invited his friends to enjoy the garden too. Sharing made the adventure even better. The End!"],
-  ["🧸","Teddy Learns to Share","Teddy had a beautiful red ball. His friend Bunny wanted to play. At first Teddy refused, but then he decided to share. They laughed and played together. Teddy discovered that sharing makes happiness grow. The End!"],
-  ["🌳","The Magic Forest","A little girl named Mimi discovered a magical forest. She met talking birds, friendly elephants and a wise old tree. Everyone worked together to keep the forest clean. Mimi learned to care for nature. The End!"]
- ],
- super:[
-  ["🦁","The Lion Who Listened","In a wide grassland, a young lion named Kito believed that being a leader meant always giving orders. When the river began to dry, the animals argued about what to do. Kito finally listened to the small weaver bird, who had noticed a hidden stream beyond the hills. The animals worked together to reach it. Kito learned that a wise leader listens before speaking. The End!"],
-  ["🐢","Tortoise and the Borrowed Drum","At the village celebration, Tortoise borrowed a beautiful drum and promised to return it before sunset. He became so excited by the dancing that he forgot his promise. When the owner came looking, Tortoise admitted his mistake and returned the drum. He apologised and helped repair its loose strap. He learned that trust grows when promises are kept—and can be rebuilt through honest actions. The End!"],
-  ["🌳","The Forest Keepers","A group of children noticed that rubbish was collecting near the stream beside their community. They interviewed elders, organised a clean-up and planted native trees along the bank. At first, only a few neighbours joined. Then more families saw the difference and volunteered. The children discovered that protecting nature takes patience, knowledge and teamwork. The End!"],
-  ["🧭","The Map of Many Paths","Amara found an old map showing paths between several villages. She wanted to find the shortest route to the festival, but each path crossed a different landscape. She asked farmers, fishers and elders about the land. Their knowledge helped her choose a safe route and understand how connected the communities were. Amara learned that maps show places, while people help us understand them. The End!"]
- ]
+const $=id=>document.getElementById(id);
+let age=localStorage.getItem('lsw_age')||'tots', section='home', currentStory=null, currentGame=null, round=0, score=0, selectedColor='#ff6b6b', narrator='female';
+const ageNames={tots:'Little Tots',bright:'Bright Stars',super:'Super Stars'};
+const navItems=[['home','🏡','Home'],['stories','📚','Stories'],['africa','🌍','African Tales'],['games','🎮','Games'],['colour','🎨','Colouring'],['songs','🎵','Songs'],['shop','🛍️','Reward Shop'],['treasure','🎁','My Treasure Box'],['playroom','🏰','Playroom'],['parent','👨‍👩‍👧','Grown-ups']];
+let state=JSON.parse(localStorage.getItem('lsw_state')||'null')||{stars:0,completed:[],unlocked:[],equipped:'default',achievements:[]};
+function save(){localStorage.setItem('lsw_state',JSON.stringify(state));$('starCount').textContent=state.stars}
+function earn(id,amount=10){if(state.completed.includes(id))return false;state.completed.push(id);state.stars+=amount;save();return true}
+function setAge(a){age=a;localStorage.setItem('lsw_age',a);document.querySelectorAll('.agebtn').forEach(b=>b.classList.toggle('active',b.dataset.age===a));render()}
+function go(s){section=s;render()}
+function render(){save();$('navigation').innerHTML=navItems.map(([id,em,label])=>`<button class="navbtn ${section===id?'active':''}" onclick="go('${id}')">${em} ${label}</button>`).join('');({home,stories,africa,games,colour,songs,shop,treasure,playroom,parent}[section]||home)()}
+function home(){$('app').innerHTML=`<h2>Your Star Adventure ⭐</h2><p class="sub">Choose something fun to do today, ${ageNames[age]}!</p><div class="grid">
+${[['📚','Story time','Explore wonderful stories made for your age.','stories'],['🎮','Play a game','Try fun challenges and earn stars.','games'],['🎨','Colouring studio','Bring animals and pictures to life.','colour'],['🌍','African tales','Discover stories inspired by African heritage.','africa'],['🎵','Sing and dance','Enjoy a cheerful original melody.','songs'],['🛍️','Reward shop','Spend your stars on exciting virtual rewards.','shop']].map(x=>`<article class="tile"><div class="emoji">${x[0]}</div><h3>${x[1]}</h3><p>${x[2]}</p><button class="primary" onclick="go('${x[3]}')">Let's go!</button></article>`).join('')}
+</div><div class="treasure"><b>⭐ Your star balance: ${state.stars}</b><p>You have unlocked ${state.unlocked.length} rewards and completed ${state.completed.length} activities.</p><button class="secondary" onclick="go('treasure')">Open My Treasure Box</button></div>`}
+const storiesData={
+tots:[
+['Milo and the Missing Mango','🐵',`Milo the Monkey loved mangoes. Every morning, he climbed the little mango tree beside his home. One sunny day, he found a big yellow mango. “What a lovely mango!” he said.\n\nMilo put the mango in his basket and went to play. When he came back, the mango was gone. “Oh dear! Where is my mango?” he asked.\n\nHe looked under a leaf. No mango. He looked behind a rock. No mango. Then he heard a tiny sound. “Peep, peep!” It was Baby Bird. Baby Bird was sitting beside the mango. The mango had rolled near her nest.\n\n“Did you take my mango?” Milo asked kindly. Baby Bird shook her head. “No. It rolled here. I was keeping it safe.”\n\nMilo smiled. “Thank you for looking after it. Would you like to share?” Baby Bird chirped happily. Milo cut the mango into little pieces. They shared it under the tree.\n\nSoon Bunny came along. “May I join you?” she asked. “Yes!” said Milo. They shared the last pieces together.\n\nMilo learned that sharing makes a happy day even sweeter. And from that day, he always brought enough fruit for his friends.`],
+['Bunny Finds a Rainbow','🐰',`Bunny woke up to the sound of soft rain. Drip, drop, drip, drop! She looked out of her window. The garden was wet, and the flowers were dancing in the breeze.\n\n“I wanted to play outside,” Bunny sighed. Teddy came to visit. “Let us wait for the rain to stop,” he said. They sat together and counted the raindrops on the window. One, two, three, four, five!\n\nSoon the clouds moved away. A warm sunbeam touched the garden. Bunny hopped outside. “Look!” she cried. A beautiful rainbow stretched across the sky.\n\n“Red, orange, yellow, green, blue and purple,” Teddy said. They found colours around them. A red flower, an orange butterfly, a yellow sun, green grass and blue puddles reflecting the sky.\n\nBunny and Teddy made a little rainbow picture with crayons. They gave it to Milo, who was feeling sad because he had missed the rainbow.\n\n“Now I have my own rainbow,” Milo said with a big smile. The friends danced in the garden. They learned that even after a rainy moment, something beautiful can appear.`],
+['Teddy Learns to Say Please','🧸',`Teddy wanted a cup of water. He saw Bunny holding a little jug. “Give me water!” he said.\n\nBunny looked surprised. “You can ask me kindly,” she replied. Teddy thought for a moment. “Please may I have some water?” he asked.\n\n“Of course!” Bunny poured a little water into his cup. “Thank you,” said Teddy. Bunny smiled.\n\nLater, Teddy wanted to use Milo’s red ball. He reached for it without asking. Milo held the ball close. “I am playing with it now,” he said.\n\nTeddy remembered his kind words. “May I play when you are finished, please?” Milo nodded. “Yes. We can play together.”\n\nThe friends rolled the ball across the grass. They took turns and laughed. When Teddy went home, he said, “Please” when he asked for dinner and “Thank you” when he received it.\n\nHis family gave him a big hug. Teddy felt warm and happy. He learned that kind words help everyone feel loved.`],
+['The Little Elephant Who Was Brave','🐘',`Ella was a little elephant who lived near a wide, sparkling river. She loved splashing in the shallow water, but she was afraid of crossing the small wooden bridge.\n\nOne day, her friend Giraffe stood on the other side. “Come and play,” Giraffe called. Ella shook her head. “The bridge makes a funny sound.”\n\nMama Elephant came close. “We can try one small step at a time,” she said. Mama walked first. The bridge creaked softly. Ella held Mama’s tail and took one step. Then another.\n\nHalfway across, Ella stopped. “I am scared,” she whispered. Mama smiled. “Being brave does not mean you never feel afraid. It means you try carefully, with help when you need it.”\n\nElla took a slow breath and walked the last few steps. “I did it!” she cheered. Giraffe clapped. They played beside the river and watched little fish swim.\n\nThat evening, Ella told her family about the bridge. She was proud. She knew she could try new things one small step at a time.`]
+],
+bright:[
+['The Lantern That Shared Its Light','🏮',`In a village surrounded by tall palm trees lived a girl named Amara. Her grandmother gave her a small lantern with a bright golden flame. “This lantern is special,” Grandma said. “Its light grows brighter whenever you use it to help someone.”\n\nAmara did not understand. That evening, she carried the lantern along the village path. She met an old farmer whose basket had broken. Tomatoes were rolling everywhere. Amara held the lantern high while he gathered them. The flame glowed a little brighter.\n\nAt the stream, she found two children searching for a lost sandal. She helped them look beneath the bridge. When they found it, the lantern shone brighter again.\n\nAs Amara walked home, she saw a neighbour struggling to carry a heavy pot. Amara offered to walk beside her and light the path. The lantern became so bright that fireflies gathered around it like tiny stars.\n\n“Grandma was right!” Amara exclaimed. “Helping others makes the light grow.”\n\nGrandma smiled when Amara returned. “Kindness is like a lantern,” she said. “The more you share it, the more light there is for everyone.” Amara placed the lantern by the window, ready for another day of helping.`],
+['The Clever Tortoise and the Water Pot','🐢',`A long time ago, a village experienced a very hot dry season. The stream became small, and everyone needed water. The villagers agreed to take turns filling one large clay pot from the last deep pool.\n\nOne morning, Tortoise arrived and saw that the pot was empty. “Who used all the water?” he wondered. Some animals began blaming one another. The argument grew louder, but no one solved the problem.\n\nTortoise asked everyone to sit in a circle. “Let us think,” he said. “How can we make the water last?” He suggested that each family collect only what it needed, use a smaller cup, and keep the pool clean. He also asked the strongest animals to help repair a small channel that guided rainwater towards the pool.\n\nAt first, the animals laughed. “A small cup cannot solve a big problem,” said Hyena. But Tortoise showed them how much water was wasted when everyone filled a large bucket.\n\nThe animals tried his plan. They shared fairly, repaired the channel and planted grass around the pool to protect the soil. When the next rain came, the pool filled again.\n\nThe village thanked Tortoise. He reminded them, “A clever idea becomes powerful when everyone works together.”`],
+['The Day the Stars Went Missing','✨',`Kemi loved looking at the night sky with her father. They knew the bright North Star and could find familiar patterns among the stars. One evening, Kemi looked up and gasped. “The sky looks empty!”\n\nHer father explained that thick clouds were covering the stars. Kemi decided to make her own stars while they waited. She cut star shapes from yellow paper and wrote one good deed on each: sharing lunch, helping a neighbour, telling the truth and caring for a younger child.\n\nShe hung the paper stars around the sitting room. Her little brother added one that said, “I put my toys away.” Soon the room glittered with small acts of kindness.\n\nThe next night, the clouds cleared. The real stars appeared, shining above the rooftops. Kemi smiled. “The sky has its stars again.”\n\nHer father pointed to the paper stars. “And our home has stars too. Every kind action is a little light.”\n\nKemi kept adding a paper star whenever someone did something thoughtful. Before long, the whole family had made a bright constellation of kindness.`],
+['The Seed of Tomorrow','🌱',`Chidi found a tiny seed near his grandmother’s garden. He held it in his palm. “Can this little thing really become a tree?” he asked.\n\nGrandmother nodded. “With soil, water, sunlight and patience.” Together they dug a small hole. Chidi placed the seed inside, covered it gently and watered the spot.\n\nFor several days, nothing seemed to happen. Chidi checked the soil every morning. “Perhaps it is not growing,” he worried. Grandmother explained that some important work happens where we cannot see it. The seed was growing roots beneath the ground.\n\nOne morning, a tiny green shoot appeared. Chidi shouted with joy. He watered it carefully and removed weeds around it. His friends helped make a little fence so goats would not eat the young plant.\n\nMonths passed. The shoot grew taller and stronger. Years later, it became a shade tree where children gathered to read and play.\n\nChidi remembered the tiny seed. “The tree began with something so small,” he said. Grandmother smiled. “Big futures often begin with small, patient steps.”`]
+],
+super:[
+['The Mapmaker of the Forgotten River','🗺️',`When twelve-year-old Naya discovered a rolled map beneath the loose floorboard of her grandfather’s study, she expected to find directions to an old farm. Instead, she found a river marked in blue ink and labelled “The River That Remembers.”\n\nHer grandfather studied the map for a long time. “My grandmother told stories about this river,” he said. “It once supplied water to several communities. Over the years, people stopped caring for it, and the channel became blocked.”\n\nNaya gathered her friends, Femi and Laila. They visited the village elders, who described where the river had flowed. The children compared those accounts with the map and marked possible sections on a fresh drawing. They did not rush into the bush. They asked adults to accompany them and contacted a local environmental group.\n\nDuring the survey, they found plastic waste, fallen branches and a damaged footpath. The group recorded what they saw, took photographs with permission and presented their findings at a community meeting. Some residents remembered the river clearly; others had never heard of it.\n\nA restoration plan began. Adults handled the heavy work, while the children organised a clean-up campaign, prepared information posters and planted native grasses along a safe section of the bank. The first rain carried water through a small restored channel.\n\nNaya looked at the map again. It was no longer simply a record of the past. It had become a guide for the future. She learned that discovery matters most when it leads to responsible action, and that protecting a place begins with listening to the people who know it.`],
+['The Debate at Unity School','🎤',`Unity School planned a cultural day, but the student council could not agree on the programme. Some students wanted only modern music and dance. Others insisted that every performance should be traditional. The argument became personal, and the planning meeting ended without a decision.\n\nTari, the council secretary, suggested a different approach. Instead of asking which culture was better, she asked what the event should help students understand. “Could we create a programme that gives every group a voice?” she asked.\n\nThe council divided into teams. One team interviewed family members about songs, foods, clothing and stories. Another researched contemporary Nigerian art, technology and music. A third prepared a display showing how traditions change as people meet, travel and exchange ideas.\n\nAt the next meeting, students presented their findings. They discovered similarities they had overlooked: different communities used music to celebrate, stories to teach values and special foods to welcome guests. They also learned that cultural practices were not identical and should be described accurately rather than mixed together carelessly.\n\nThe final programme included traditional performances, modern creative work, a storytelling corner and a conversation with elders and young artists. Students explained the background of each presentation.\n\nOn the day, the hall was full. Tari watched classmates applaud performances they had never seen before. Unity, she realised, did not require everyone to be the same. It required curiosity, respect and the willingness to make room for one another.`],
+['The Code That Saved the Garden','💻',`A community garden beside Amina’s school was slowly drying out. The volunteers watered it by guesswork. Some plants received too much water, while others were forgotten. Amina and her robotics club wondered whether a simple system could help.\n\nTheir teacher challenged them to investigate before building anything. The students recorded the garden’s layout, identified plants that needed different amounts of water and measured how quickly the soil dried. They learned that a sensor could estimate soil moisture, but readings had to be tested and interpreted carefully.\n\nThe team built a small prototype using a moisture sensor, a microcontroller and a low-voltage pump. Their first test failed: the sensor gave inconsistent readings because it had been placed too close to a stone. They adjusted its position, collected more data and changed the threshold in their code.\n\nThey also designed a manual override. “Technology should support people, not leave them helpless when something breaks,” Amina explained. The volunteers could still water the garden by hand if the system stopped working.\n\nAfter several weeks, the plants looked healthier and the volunteers spent less time guessing. The students presented their results, including the failures and improvements, at the school science fair.\n\nAmina was proud of the working prototype, but she was even prouder of the process. They had asked a real question, tested an idea, learned from mistakes and designed with the community. Their code did not solve every problem, but it helped the garden grow.`],
+['The Keeper of the Talking Drum','🥁',`During the school holiday, twelve-year-old Sola visited his aunt in a town known for its skilled drummers. In the family sitting room stood an old talking drum. Its wooden body was smooth from years of use, and its cords were carefully tied.\n\nSola wanted to play it immediately. His aunt stopped him gently. “First, learn what it means to the people who use it,” she said. She explained that drums could mark celebrations, accompany dance, support storytelling and communicate musical phrases. Their meanings depended on the community and context; one should never assume every drum tradition was the same.\n\nThe next day, a local drummer demonstrated how changing the tension of the cords altered the pitch. Sola listened, then tried a simple pattern. His first attempt sounded like a pot falling down the stairs. Everyone laughed kindly, including Sola.\n\nHe practised slowly. He learned to keep a steady rhythm, listen to the other instruments and leave space for a singer or dancer. His aunt also taught him to ask permission before recording performances and to credit the people who shared their knowledge.\n\nAt the community celebration, Sola played a short rhythm with the youth group. He was nervous, but the other musicians supported him. When the performance ended, an elder thanked the young people for learning with respect.\n\nSola understood that heritage was not an object locked away in a room. It was knowledge carried by people, strengthened through practice and passed on with care.`]
+]};
+const africanData={
+tots:[['Why the Tortoise Has a Cracked Shell','🐢',`Long ago, Tortoise loved visiting his friends. One day, the birds invited him to a feast in the sky. Tortoise wanted to go, but he had no wings.\n\nHe asked the birds for help. They tied soft feathers around his arms and carried him up. Before the feast, Tortoise chose the name “All of You” for himself.\n\nWhen the food was served, the birds said, “This food is for all of you.” Tortoise quickly ate most of it because he thought the words meant him alone. The birds were unhappy.\n\nWhen it was time to return, they took back their feathers. Tortoise had to jump down onto a pile of soft leaves and dry grass. His shell cracked into pieces.\n\nHis wife carefully joined the pieces together. That is why, in this well-known Igbo folktale, the tortoise has a patterned shell. The story reminds us to be fair and share with others.`],
+['The Moon and the Calabash','🌙',`A little child once wondered why the moon followed her on the path home. Her grandmother smiled and said, “The moon is a friend to everyone.”\n\nThat night, the child placed a small calabash outside. She hoped the moon would climb inside and stay with her. But the moon shone on the calabash, the roof, the trees and the whole village.\n\nGrandmother explained, “Some beautiful things cannot belong to just one person. Their joy is for everyone.” The child looked up and shared the moonlight with her neighbours.`],
+['The Drum of Friendship','🥁',`In a village, a young drummer loved playing alone. One day, the drum became quiet. The child asked an elder why.\n\nThe elder said, “A drum is happiest when people make music together.” The child invited friends to clap, sing and dance. Each person added a different sound.\n\nSoon the village square was full of music. The drummer understood that every person could contribute something special. Together, their sounds made a joyful song.`]],
+bright:[['Anansi and the Pot of Wisdom','🕷️',`Anansi the spider believed he was the wisest creature in the world. He decided to collect all the wisdom he could find and keep it in a pot. He travelled from village to village, gathering clever ideas and useful lessons.\n\nWhen the pot was full, Anansi wanted to hide it at the top of a tall tree. He tied it in front of his body and began to climb. The pot kept bumping against the trunk, making the climb difficult.\n\nHis young son watched and said, “Father, why not tie the pot behind you? Then your hands can hold the tree.” Anansi tried it, and the climb became easier.\n\nHe stared at his son in surprise. If all wisdom was inside his pot, how had a child thought of something he had not? Anansi laughed and tipped the pot. The wisdom scattered across the world.\n\nThe tale, told in many West African traditions, reminds us that nobody knows everything. We can learn from children, elders, friends and even people who think differently from us.`],
+['The Hare and the Elephant’s Promise','🐇',`Hare and Elephant agreed to care for a young tree beside the village path. Elephant promised to water it every morning. Hare promised to keep goats away from it.\n\nFor a while, the tree grew well. Then Elephant became busy and missed several mornings. Hare noticed the leaves drooping, but he did not remind his friend. He thought Elephant would remember.\n\nOne afternoon, a strong wind bent the little tree. Hare ran to call Elephant. Together they supported the trunk with a stake, watered the roots and made a small fence. They also asked neighbours to help.\n\nElephant apologised for forgetting. Hare admitted that he should have spoken up sooner. They agreed to check on the tree together each evening.\n\nThe tree survived and grew strong. The friends learned that a promise needs action, communication and teamwork. Friendship is not about never making mistakes; it is about taking responsibility and putting things right.`],
+['The Weaver’s Pattern','🧵',`A young apprentice named Esi wanted to weave the most beautiful cloth in the market. She copied a pattern she had seen but rushed through the work. The threads crossed in the wrong places, and the cloth became uneven.\n\nAn experienced weaver showed her how to plan the colours and count each thread. Esi practised a small square every day. She also asked other weavers about patterns from their families and communities, learning that designs could carry memories and meanings.\n\nAt the next market, Esi displayed a cloth of her own design. It was not perfect, but every colour had been chosen carefully. The older weavers praised her patience and encouraged her to keep learning.\n\nEsi understood that creativity grows when we respect the knowledge of others and add our own ideas with care.`]],
+super:[['The Queen Who Listened','👑',`In an old kingdom, a young queen inherited a land blessed with rich soil and busy markets. Yet the villages near the forest complained that their crops were failing. The palace officials said the problem was simply a lack of hard work.\n\nThe queen decided to visit the villages without a grand parade. She listened to farmers, traders, hunters and families who collected water. Their accounts revealed several connected problems: a stream had become blocked, trees were being cut too quickly on a steep slope, and farmers had little access to information about changing rainfall.\n\nRather than announce an instant solution, the queen invited representatives to a council. They mapped the stream, agreed on safe areas for farming, organised repairs and planned tree planting. The farmers also shared local knowledge about soil and seasonal changes.\n\nSome officials complained that listening took too much time. The queen replied, “A ruler who hears only praise will make decisions in the dark.”\n\nThe work continued through many seasons. Not every plan succeeded, but the council reviewed its progress and adjusted. The kingdom became stronger because decisions were shaped by the people who understood the land.\n\nThis is a newly written folktale-style story about leadership, listening and shared responsibility. It reminds us that wisdom is not measured by how loudly someone speaks, but by how carefully they listen.`],
+['The River’s Warning','🌊',`The people of a riverside settlement depended on the water for fishing, farming and transport. Over time, rubbish began collecting near the banks. Some people said the river was large enough to carry it away. Others noticed that fish were becoming harder to find.\n\nA young apprentice fisher named Ikenna asked the elders to explain how the river had changed. They described places where fish once gathered and seasons when the water ran clear. Ikenna and his friends recorded the observations and spoke with local environmental educators.\n\nThey learned that pollution could harm aquatic life, affect food safety and damage livelihoods. They organised a community meeting, not to accuse neighbours, but to understand where waste came from and how it could be managed. Traders requested better collection points; households agreed to stop dumping waste near the water; and the youth group planned regular clean-ups with adult supervision.\n\nThe community also discussed protecting breeding areas and following local fishing rules. Progress was gradual. Some weeks the river still carried waste from upstream, reminding everyone that environmental care required cooperation beyond one settlement.\n\nIkenna realised that a river connects communities. Protecting it means looking beyond one person or one day and working together for the future.`],
+['The Festival of Many Voices','🎭',`When the annual festival approached, the youth committee wanted to create a performance that honoured the many communities living in their region. The first meeting was difficult. Everyone wanted their own dance, food or language to take centre stage.\n\nA young organiser, Binta, suggested that the group begin with research. They invited elders and cultural practitioners to explain the origins and meanings of selected songs, clothes, instruments and ceremonies. They asked permission before recording and checked the correct names and pronunciations.\n\nThe students discovered that some practices were shared across communities, while others were distinct and deeply connected to particular histories. They decided not to blend everything into one vague performance. Instead, each group would introduce its own contribution and explain what it meant.\n\nOn festival day, the stage moved from storytelling to music, dance, poetry and a display of local crafts. The audience heard different languages and learned why each performance mattered. The event ended with a song about peace and neighbourliness.\n\nBinta understood that celebrating diversity did not mean erasing differences. Respect meant giving people room to tell their own stories and listening with an open mind.`]]
 };
-let stories=storyCollections[age]||storyCollections.bright;
-function renderStoryList(){
- stories=storyCollections[age]||storyCollections.bright;
- const names={tots:'Little Tots (2–4): short stories with simple words',bright:'Bright Stars (5–7): fun stories with clear lessons',super:'Super Stars (8–12): longer stories with richer ideas'};
- document.getElementById('storyAgeNote').textContent=names[age];
- document.getElementById('storyList').innerHTML=stories.map((s,i)=>'<button class="option" onclick="showStory('+i+')">'+s[0]+' '+s[1]+'</button>').join('');
- document.getElementById('storybox').style.display='none';\n document.getElementById('featuredStoryTitle').textContent=stories[0][1];
-}
-function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress));}catch(e){}document.getElementById('points').textContent=progress.stars;}
-function completeActivity(id,label){
- if(progress.completed.includes(id)){alert('You have already earned the star for this activity. Keep learning, Little Star! ⭐');return;}
- progress.completed.push(id);progress.stars+=5;saveProgress();alert('Well done! You completed '+label+' and earned 5 stars! ⭐');
-}
-saveProgress();
-function setAge(){age=document.getElementById('age').value;renderStoryList();}
-function openScreen(id){stopReading();stopSong();document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function goHome(){openScreen('home')}
-function showStory(i){current=i;openScreen('stories');document.getElementById('storybox').style.display='block';document.getElementById('storyemoji').textContent=stories[i][0];document.getElementById('storytitle').textContent=stories[i][1];document.getElementById('storytext').textContent=stories[i][2];}
-function speak(text){if(!('speechSynthesis'in window)){alert('Voice reading is unavailable on this browser.');return;}speechSynthesis.cancel();let msg=new SpeechSynthesisUtterance(text);msg.lang='en-NG';msg.rate=.88;let voices=speechSynthesis.getVoices();let voice=voices.find(v=>/female|woman/i.test(v.name))||voices.find(v=>v.lang&&v.lang.startsWith('en'));if(voice)msg.voice=voice;speechSynthesis.speak(msg);}
-function readStory(){speak(stories[current][2]);}
-function readAfrican(){speak(document.getElementById('africanText').innerText);}
-function stopReading(){if('speechSynthesis'in window)speechSynthesis.cancel();}
-const africanVersions={
- tots:"Tortoise found a big pot. He put it on his tummy. Oh dear! It was hard to climb the tree. His son helped him. Tortoise smiled. We can learn from one another. The End!",
- bright:"Once upon a time, Tortoise wanted all the wisdom in the world for himself. He gathered it into a pot and tried to hide it in a tall tree. But the pot made climbing difficult. His son suggested carrying it on his back. Tortoise learned that even a child can teach us something, and that sharing wisdom makes everyone stronger. The End!",
- super:"In a village long ago, Tortoise decided that he should keep all the world's wisdom for himself. He collected wise sayings, lessons and ideas in a pot and climbed a tree to hide them. The pot kept bumping against the trunk, making the climb almost impossible. His child watched and suggested tying the pot securely behind him. Tortoise realised that he had overlooked a simple solution because he refused to listen. He climbed down, shared what he had gathered and discovered that knowledge becomes more valuable when it is exchanged. The End!"
+function storyList(data,kind){$('app').innerHTML=`<h2>${kind==='africa'?'🌍 African Tales':'📚 Story Library'}</h2><p class="sub">Stories selected for ${ageNames[age]}. Choose one to read or listen to.</p><div class="grid">${data.map((s,i)=>`<article class="tile"><div class="emoji">${s[1]}</div><h3>${s[0]}</h3><p>${s[2].slice(0,115)}…</p><button class="primary" onclick="openStory('${kind}',${i})">Read this story</button></article>`).join('')}</div>`}
+function stories(){storyList(storiesData[age],'stories')}
+function africa(){storyList(africanData[age],'africa')}
+function openStory(kind,i){const s=(kind==='africa'?africanData:storiesData)[age][i];currentStory={kind,i,s};$('app').innerHTML=`<div class="storyhead"><div><span class="pill">${ageNames[age]}</span><h2>${s[1]} ${s[0]}</h2></div><button class="secondary" onclick="go('${kind}')">← Back to stories</button></div><div class="row"><label>Narrator voice:</label><select id="voiceChoice" onchange="narrator=this.value"><option value="female">Female voice</option><option value="male">Male voice</option></select><button class="primary" onclick="readStory()">🔊 Read to me</button><button class="secondary" onclick="stopRead()">Stop</button></div><div class="storytext">${s[2]}</div><button class="primary" onclick="finishStory('${kind}-${age}-${i}')">I finished reading ⭐</button><p class="small">Stars are awarded once for each story. Listening or tapping the button alone does not award stars.</p>`}
+function readStory(){if(!('speechSynthesis'in window)){alert('Read-aloud is not supported in this browser.');return}stopRead();const u=new SpeechSynthesisUtterance(currentStory.s[2]);u.lang='en-NG';const voices=speechSynthesis.getVoices();let v=voices.find(x=>narrator==='female'?/female|woman|zira|susan|samantha|victoria/i.test(x.name):/male|man|david|mark|james|daniel/i.test(x.name));if(!v)v=voices.find(x=>/^en/i.test(x.lang));if(v)u.voice=v;u.rate=age==='tots'?.82:age==='bright'?.92:1;speechSynthesis.speak(u)}
+function stopRead(){if('speechSynthesis'in window)speechSynthesis.cancel()}
+function finishStory(id){const fresh=earn('story-'+id,8);alert(fresh?'Wonderful reading! You earned 8 stars ⭐':'You have already earned stars for this story.');go(currentStory.kind)}
+const gameData={
+tots:[
+['Colour Finder','🎨','Find the colour named in each question.',[['Touch the RED colour.',['🔴 Red','🔵 Blue','🟡 Yellow'],0],['Which one is GREEN?',['🍓','🍃','☁️'],1],['Find YELLOW.',['🌙','🍌','🐟'],1]]],
+['Count the Little Things','🔢','Count carefully and choose the number.',[['How many apples? 🍎 🍎',['1','2','3'],1],['How many stars? ⭐ ⭐ ⭐',['2','3','4'],1],['How many ducks? 🦆',['1','2','3'],0]]],
+['Animal Home','🐾','Choose the right animal or home.',[['Which animal says “meow”?',['🐶 Dog','🐱 Cat','🐮 Cow'],1],['Where does a bird live?',['Nest','Shoe','Cup'],0],['Which animal has a long trunk?',['🐘 Elephant','🐰 Bunny','🐸 Frog'],0]]],
+['Shape Friends','🔺','Look at the shape and choose its name.',[['⚪',['Circle','Square','Triangle'],0],['🟦',['Circle','Square','Star'],1],['🔺',['Triangle','Heart','Oval'],0]]],
+['Big or Small','🐘','Think about size.',[['Which is BIGGER?',['🐜 Ant','🐘 Elephant'],1],['Which is SMALLER?',['🏠 House','🐞 Ladybird'],1],['Which is BIGGER?',['🚌 Bus','🍇 Grape'],0]]],
+['First Letter Fun','🔤','Choose the first letter sound.',[['Apple begins with…',['A','B','C'],0],['Ball begins with…',['D','B','M'],1],['Sun begins with…',['S','T','P'],0]]]
+],
+bright:[
+['Alphabet Adventure','🔤','Choose the correct letter or word.',[['Which letter comes after C?',['B','D','F'],1],['Which word begins with M?',['Moon','Sun','Fish'],0],['Choose the missing letter: A, B, __, D',['C','E','G'],0]]],
+['Number Detectives','➕','Solve each little maths mystery.',[['8 + 4 = ?',['10','12','14'],1],['15 − 6 = ?',['8','9','10'],1],['3 groups of 2 make…',['5','6','8'],1]]],
+['Animal Detective','🦁','Use clues to identify the animal.',[['I have a mane and roar. Who am I?',['Lion','Goat','Duck'],0],['I carry my home on my back.',['Tortoise','Horse','Monkey'],0],['I have black and white stripes.',['Zebra','Elephant','Rabbit'],0]]],
+['Word Builder','🧩','Choose the correctly spelled word.',[['Which spelling is correct?',['Frend','Friend','Freind'],1],['Which word means the opposite of hot?',['Cold','Warm','Fire'],0],['Complete: play___',['ground','grind','grand'],0]]],
+['Science Sparks','🔬','Explore simple science facts.',[['What do plants need to grow?',['Sunlight and water','Plastic','Only stones'],0],['Which is a source of light?',['Sun','Rock','Spoon'],0],['Water becomes ice when it gets…',['Hotter','Colder','Louder'],1]]],
+['Pattern Patrol','🔍','Find what comes next.',[['🔴 🔵 🔴 🔵 __',['🔴','🟢','🟡'],0],['2, 4, 6, __',['7','8','10'],1],['⭐ 🌙 ⭐ 🌙 __',['⭐','☀️','🌈'],0]]]
+],
+super:[
+['Maths Mastermind','➗','Use your maths skills.',[['24 × 3 = ?',['62','72','82'],1],['144 ÷ 12 = ?',['10','12','14'],1],['What is 15% of 200?',['20','30','40'],1]]],
+['Word Wizard','📖','Choose the best word or meaning.',[['A synonym for “brave” is…',['Courageous','Careless','Silent'],0],['The opposite of “ancient” is…',['Modern','Old','Historic'],0],['Which is a noun?',['Happiness','Quickly','Run'],0]]],
+['Science Explorer','🧪','Test your science knowledge.',[['Which planet is known as the Red Planet?',['Venus','Mars','Jupiter'],1],['What gas do plants absorb from the air?',['Oxygen','Carbon dioxide','Helium'],1],['Which force pulls objects towards Earth?',['Gravity','Magnetism','Friction'],0]]],
+['Africa Knowledge Quest','🌍','Explore geography and culture.',[['Which is the largest hot desert in the world?',['Sahara','Kalahari','Gobi'],0],['The River Nile flows into which sea?',['Red Sea','Mediterranean Sea','Arabian Sea'],1],['Which continent is Nigeria in?',['Asia','Africa','Europe'],1]]],
+['Logic Lab','🧠','Think carefully before choosing.',[['All bloops are blue. This is a bloop. What colour is it?',['Blue','Red','Cannot tell'],0],['A number doubled is 18. What is it?',['8','9','10'],1],['Which does not belong?',['Triangle','Square','Banana'],2]]],
+['History & Heritage','🏛️','Think about history and heritage.',[['What is an artefact?',['An object made or used by people in the past','A weather forecast','A type of cloud'],0],['Why do historians study sources?',['To understand the past','To predict lottery numbers','To change the weather'],0],['What helps preserve oral history?',['Recording stories with permission','Forgetting names','Damaging old objects'],0]]]
+]};
+function games(){$('app').innerHTML=`<h2>🎮 Games for ${ageNames[age]}</h2><p class="sub">Every age group has its own challenges. Complete all three rounds of a game to earn 10 stars. Each game pays stars only once.</p><div class="grid">${gameData[age].map((g,i)=>`<article class="tile"><div class="emoji">${g[1]}</div><h3>${g[0]}</h3><p>${g[2]}</p><button class="primary" onclick="startGame(${i})">${state.completed.includes('game-'+age+'-'+i)?'Play again':'Play game'}</button></article>`).join('')}</div><div class="treasure"><b>🧠 Bonus challenge</b><p>Try the memory match game and find all the pairs.</p><button class="secondary" onclick="memoryGame()">Play Memory Match</button></div>`}
+function startGame(i){currentGame=i;round=0;score=0;showQuestion()}
+function showQuestion(){const g=gameData[age][currentGame],q=g[3][round];$('app').innerHTML=`<div class="storyhead"><div><span class="pill">${g[0]}</span><h2>${g[1]} Round ${round+1} of 3</h2></div><button class="secondary" onclick="go('games')">Exit</button></div><div class="progress"><span style="width:${round/3*100}%"></span></div><p class="sub">${g[2]}</p><div class="gamequestion">${q[0]}</div><div class="answergrid">${q[1].map((a,j)=>`<button class="answer" onclick="answerGame(${j})">${a}</button>`).join('')}</div><div id="gameFeedback"></div>`}
+function answerGame(n){const q=gameData[age][currentGame][3][round],buttons=document.querySelectorAll('.answer');buttons.forEach(b=>b.disabled=true);if(n===q[2]){score++;$('gameFeedback').innerHTML='<div class="feedback">⭐ Correct! Great thinking!</div>'}else{$('gameFeedback').innerHTML=`<div class="feedback">Good try! The answer is ${q[1][q[2]]}. Keep learning!</div>`} $('gameFeedback').innerHTML+=`<button class="primary" onclick="nextQuestion()">${round===2?'See result':'Next question'}</button>`}
+function nextQuestion(){if(round<2){round++;showQuestion()}else{const fresh=earn('game-'+age+'-'+currentGame,10);$('app').innerHTML=`<div style="text-align:center;padding:25px"><div style="font-size:65px">🏆</div><h2>Game completed!</h2><p>You got ${score} out of 3 correct answers.</p><h3>${fresh?'You earned 10 stars! ⭐':'You have already earned stars for this game.'}</h3><button class="primary" onclick="go('games')">Choose another game</button></div>`}}
+function memoryGame(){let vals=['🐸','🐸','🍎','🍎','🚀','🚀','🐠','🐠'];vals.sort(()=>Math.random()-.5);let open=[],matched=0,tries=0;$('app').innerHTML=`<h2>🧠 Memory Match</h2><p class="sub">Find all four matching pairs. Tap two cards at a time.</p><div class="grid" id="memoryGrid">${vals.map((v,i)=>`<button class="answer" style="font-size:28px;min-height:80px" data-v="${v}" data-i="${i}" onclick="flipCard(this)">❔</button>`).join('')}</div><p id="memoryStatus">Pairs found: 0 / 4</p><button class="secondary" onclick="go('games')">Back to games</button>`;window.mem={open,matched,tries,vals,done:false}}
+function flipCard(el){if(!window.mem||window.mem.done||el.dataset.locked||window.mem.open.length===2)return;el.textContent=el.dataset.v;el.dataset.locked='1';window.mem.open.push(el);if(window.mem.open.length===2){window.mem.tries++;const [a,b]=window.mem.open;if(a.dataset.v===b.dataset.v){window.mem.matched++;window.mem.open=[];$('memoryStatus').textContent=`Pairs found: ${window.mem.matched} / 4`;if(window.mem.matched===4){window.mem.done=true;const fresh=earn('memory-'+age,10);$('memoryStatus').innerHTML=`🎉 You found every pair in ${window.mem.tries} tries! ${fresh?'You earned 10 stars ⭐':'You already earned stars for this memory game.'}`}}else{setTimeout(()=>{a.textContent='❔';b.textContent='❔';delete a.dataset.locked;delete b.dataset.locked;window.mem.open=[]},650)}}}
+const rewards=[
+['costume','👗','Starry costume','New character costumes',30],
+['accessory','🎀','Teddy, Bunny & Monkey accessories','Dress up your favourite friends',40],
+['background','🌅','Dreamy backgrounds','New character backgrounds',50],
+['sticker','🏅','Shiny sticker badge','Special stickers and badges',20],
+['storybook','📕','Bonus storybook','Unlock a bonus storybook',60],
+['colourpage','🦋','Magic colouring page','Unlock a special colouring page',25],
+['animated','🦄','Special animated friend','Unlock a special character',100],
+['decoration','🏰','Playroom decorations','Decorate your virtual playroom',80],
+['costume2','🦸','Superhero costume','A second character costume',30],
+['sticker2','🌟','Super Star badge','A special achievement sticker',20],
+['background2','🌌','Galaxy background','A sparkling new background',50],
+['decoration2','🎠','Rainbow playroom','A colourful playroom decoration',80]
+];
+function shop(){$('app').innerHTML=`<h2>🛍️ Little Stars Reward Shop</h2><p class="sub">You earned your stars by completing activities. Spend them on fun virtual rewards!</p><div class="treasure"><b>⭐ Available to spend: ${state.stars} stars</b><p>Unlocked rewards stay in your Treasure Box. Stars are virtual and have no cash value.</p></div><div class="grid">${rewards.map(r=>{let unlocked=state.unlocked.includes(r[0]);return `<article class="tile shopitem"><div class="emoji">${r[1]}</div><h3>${r[2]}</h3><p>${r[3]}</p><div class="cost">⭐ ${r[4]} stars</div><button class="${unlocked?'secondary':'primary'}" ${unlocked?'disabled':''} onclick="buyReward('${r[0]}')">${unlocked?'✓ Unlocked':'Buy reward'}</button></article>`}).join('')}</div>`}
+function buyReward(id){const r=rewards.find(x=>x[0]===id);if(!r||state.unlocked.includes(id))return;if(state.stars<r[4]){alert(`You need ${r[4]-state.stars} more stars. Complete a story or game to earn more!`);return}if(!confirm(`Spend ${r[4]} stars on ${r[2]}?`))return;state.stars-=r[4];state.unlocked.push(id);save();alert(`${r[2]} is now yours! Find it in My Treasure Box.`);shop()}
+function treasure(){$('app').innerHTML=`<h2>🎁 My Treasure Box</h2><p class="sub">Everything you have unlocked lives here. Your treasures stay saved on this device.</p><div class="treasure"><h3>⭐ Star wallet</h3><div style="font-size:30px;font-weight:900">${state.stars} stars</div></div>${state.unlocked.length?`<div class="grid">${state.unlocked.map(id=>{let r=rewards.find(x=>x[0]===id);return `<article class="tile"><div class="emoji">${r[1]}</div><h3>${r[2]}</h3><p>${r[3]}</p><span class="pill">Unlocked ✓</span><button class="secondary" onclick="equipReward('${id}')">Use in my playroom</button></article>`}).join('')}</div>`:'<div class="treasure">Your treasure box is waiting for its first reward. Visit the Reward Shop when you have earned enough stars! 🎁</div>'}<h3>🏅 My achievements</h3><p>You have completed ${state.completed.length} activities and unlocked ${state.unlocked.length} rewards. Keep shining!</p><button class="primary" onclick="go('shop')">Visit Reward Shop</button>`}
+function equipReward(id){state.equipped=id;save();alert('Your reward is ready in the playroom!');go('playroom')}
+function playroom(){const r=rewards.find(x=>x[0]===state.equipped);$('app').innerHTML=`<h2>🏰 My Virtual Playroom</h2><p class="sub">A happy place for your unlocked treasures.</p><div class="character">${r?r[1]:'🧸 🐰 🐵'}</div><h3 style="text-align:center">${r?r[2]:'Welcome, little star!'}</h3><p style="text-align:center">Your friends are ready to play. Unlock more costumes, accessories and decorations in the Reward Shop.</p><div class="row" style="justify-content:center"><button class="primary" onclick="go('shop')">Decorate my playroom</button><button class="secondary" onclick="go('treasure')">My Treasure Box</button></div>`}
+const pictures={
+lion:`<circle class="paintable" cx="150" cy="150" r="105"/><circle class="paintable" cx="150" cy="150" r="72"/><circle class="paintable" cx="125" cy="140" r="9"/><circle class="paintable" cx="175" cy="140" r="9"/><path class="paintable" d="M135 170 Q150 188 165 170 Q150 160 135 170Z"/><path d="M115 112 Q150 85 185 112" fill="none" stroke="#46395b" stroke-width="4"/>`,
+butterfly:`<ellipse class="paintable" cx="150" cy="150" rx="13" ry="60"/><path class="paintable" d="M137 130 C45 35 30 155 132 165Z"/><path class="paintable" d="M163 130 C255 35 270 155 168 165Z"/><path class="paintable" d="M137 170 C65 185 75 265 140 195Z"/><path class="paintable" d="M163 170 C235 185 225 265 160 195Z"/><path d="M145 90 Q110 40 95 65 M155 90 Q190 40 205 65" fill="none" stroke="#46395b" stroke-width="4"/>`,
+fish:`<path class="paintable" d="M55 150 Q145 45 245 150 Q145 255 55 150Z"/><path class="paintable" d="M245 150 L300 95 L300 205Z"/><circle class="paintable" cx="100" cy="135" r="9"/><path class="paintable" d="M145 145 Q165 160 145 175 Q130 160 145 145Z"/>`,
+flower:`<circle class="paintable" cx="150" cy="135" r="35"/><circle class="paintable" cx="150" cy="70" r="34"/><circle class="paintable" cx="210" cy="135" r="34"/><circle class="paintable" cx="150" cy="200" r="34"/><circle class="paintable" cx="90" cy="135" r="34"/><path class="paintable" d="M140 230 L160 230 L170 340 L130 340Z"/><path class="paintable" d="M145 285 Q75 240 85 300 Q115 325 145 285Z"/>`,
+house:`<path class="paintable" d="M45 150 L150 55 L255 150Z"/><rect class="paintable" x="65" y="150" width="170" height="155"/><rect class="paintable" x="130" y="220" width="45" height="85"/><rect class="paintable" x="82" y="175" width="38" height="38"/><rect class="paintable" x="190" y="175" width="28" height="38"/>`,
+elephant:`<circle class="paintable" cx="145" cy="140" r="78"/><ellipse class="paintable" cx="75" cy="145" rx="38" ry="58"/><path class="paintable" d="M180 175 Q225 180 205 245 Q190 270 180 245 Q195 215 170 205Z"/><circle class="paintable" cx="165" cy="120" r="8"/><path class="paintable" d="M115 205 L115 285 L140 285 L140 205Z M165 205 L165 285 L190 285 L190 205Z"/>`
 };
-function showAfrican(){document.getElementById('africanStory').style.display='block';document.getElementById('africanText').textContent=africanVersions[age]||africanVersions.bright;}
-renderStoryList();
-function backToGames(){document.getElementById('gamePlay').style.display='none';document.getElementById('gameMenu').style.display='grid';document.getElementById('gameResult').textContent='';}
-function gameSetup(title,instruction){activeGame=title;gameDone=false;document.getElementById('gameMenu').style.display='none';document.getElementById('gamePlay').style.display='block';document.getElementById('gameTitle').textContent=title;document.getElementById('gameInstruction').textContent=instruction;document.getElementById('gameContent').innerHTML='';document.getElementById('gameResult').textContent='';}
-function gameWin(message){if(gameDone)return;gameDone=true;document.getElementById('gameResult').textContent=message+' ⭐';completeActivity('game-'+activeGame.toLowerCase().replace(/[^a-z0-9]+/g,'-'),activeGame);}
-function startAnimal(){gameSetup('Animal Sounds','Which animal says MEOW?');let c=document.getElementById('gameContent');c.innerHTML='<div class="big">🔊</div><div class="grid"><button class="option" onclick="animalChoice(false)">🐶 Dog</button><button class="option" onclick="animalChoice(true)">🐱 Cat</button><button class="option" onclick="animalChoice(false)">🐮 Cow</button><button class="option" onclick="animalChoice(false)">🦁 Lion</button></div>';}
-function animalChoice(ok){if(gameDone)return;if(ok)gameWin('Amazing! Cats say MEOW!');else document.getElementById('gameResult').textContent='Not quite. Try again! 💜';}
-function startMemory(){gameSetup('Memory Match','Turn over two cards and find all three matching pairs.');let faces=['🐸','🐸','🦋','🦋','🐼','🐼'];memoryDeck=faces.sort(()=>Math.random()-.5);memoryOpen=[];memoryMatches=0;let c=document.getElementById('gameContent');c.innerHTML='<div class="memory-grid" id="memoryGrid"></div>';memoryDeck.forEach((face,i)=>{let b=document.createElement('button');b.className='memory-card';b.textContent='❔';b.dataset.index=i;b.onclick=()=>flipMemory(i,b);document.getElementById('memoryGrid').appendChild(b);});}
-function flipMemory(i,b){if(gameDone||b.classList.contains('matched')||b.classList.contains('revealed')||memoryOpen.length===2)return;b.textContent=memoryDeck[i];b.classList.add('revealed');memoryOpen.push({i,b});if(memoryOpen.length===2){let [a,d]=memoryOpen;if(memoryDeck[a.i]===memoryDeck[d.i]){a.b.classList.add('matched');d.b.classList.add('matched');memoryMatches++;memoryOpen=[];if(memoryMatches===3)gameWin('Brilliant memory! You found every pair!');}else{setTimeout(()=>{a.b.textContent='❔';d.b.textContent='❔';a.b.classList.remove('revealed');d.b.classList.remove('revealed');memoryOpen=[];},700);}}}
-function startCounting(){gameSetup('Count the Objects','Count the apples. How many can you see?');let n=age==='tots'?3:age==='bright'?5:7;let emojis='🍎 '.repeat(n);document.getElementById('gameContent').innerHTML='<div class="object-row">'+emojis+'</div><div class="choice-row">'+[n-1,n,n+2].map(x=>'<button class="choice" onclick="countChoice('+x+','+n+')">'+x+'</button>').join('')+'</div>';}
-function countChoice(choice,n){if(gameDone)return;if(choice===n)gameWin('Correct! You counted '+n+' apples!');else document.getElementById('gameResult').textContent='Count them one more time! 🍎';}
-function startAlphabet(){gameSetup('Letter Match','Which letter does the word APPLE begin with?');document.getElementById('gameContent').innerHTML='<div class="big">🍎</div><div class="choice-row"><button class="choice" onclick="letterChoice(false)">B</button><button class="choice" onclick="letterChoice(true)">A</button><button class="choice" onclick="letterChoice(false)">M</button></div>';}
-function letterChoice(ok){if(gameDone)return;if(ok)gameWin('Excellent! APPLE begins with A!');else document.getElementById('gameResult').textContent='Try again. Say the word slowly!';}
-function startShadow(){gameSetup('Guess the Animal','I have a long trunk and big ears. Who am I?');document.getElementById('gameContent').innerHTML='<div class="big">🐘</div><div class="choice-row"><button class="choice" onclick="shadowChoice(false)">🐵 Monkey</button><button class="choice" onclick="shadowChoice(true)">🐘 Elephant</button><button class="choice" onclick="shadowChoice(false)">🦒 Giraffe</button></div>';}
-function shadowChoice(ok){if(gameDone)return;if(ok)gameWin('You got it! It is an elephant!');else document.getElementById('gameResult').textContent='Look at the clue again!';}
-function startWord(){gameSetup('Word Builder','Choose the letters in the correct order to spell CAT.');let seq=['T','C','A'];document.getElementById('gameContent').innerHTML='<div class="big">🐱</div><div class="choice-row">'+seq.map((x,i)=>'<button class="choice" onclick="wordChoice(this,\''+x+'\')">'+x+'</button>').join('')+'</div><p id="wordAnswer" style="font-size:24px;min-height:35px"></p><button class="secondary" onclick="startWord()">↻ Start again</button>';}
-function wordChoice(btn,letter){if(gameDone)return;let out=document.getElementById('wordAnswer');out.textContent+=letter;btn.disabled=true;if(out.textContent.length===3){if(out.textContent==='CAT')gameWin('Fantastic spelling! CAT!');else document.getElementById('gameResult').textContent='Not quite. Start again and try C-A-T.';}}
-function puzzle(correct){let r=document.getElementById('puzzleResult');if(correct){r.textContent='Fantastic! 5 comes after 4! ⭐';completeActivity('puzzle-number-after-4','Number puzzle');}else r.textContent='Not quite! Try again! 💜';}
-function resetPuzzle(){document.getElementById('puzzleResult').textContent='';}
-function answer(correct){let r=document.getElementById('quizResult');if(correct){r.textContent='Correct! Dogs have four legs! ⭐';completeActivity('quiz-dog-legs','Dog legs quiz');}else r.textContent='Keep trying, smart star! 💜';}
-function resetQuiz(){document.getElementById('quizResult').textContent='';}
-let audioCtx=null, songTimers=[];
-const notes=[392,392,440,392,523,494,392,392,440,392,587,523,392,392,784,659,523,494,440];
-const lyrics=['Clap your hands, jump up high!','Wave your hands up to the sky!','Dance together, laugh and play!','Little stars shine every day!'];
-function playSong(){stopSong();try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume();let start=audioCtx.currentTime+.1;notes.forEach((f,i)=>{let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,start+i*.28);g.gain.exponentialRampToValueAtTime(.12,start+i*.28+.02);g.gain.exponentialRampToValueAtTime(.0001,start+i*.28+.24);o.connect(g);g.connect(audioCtx.destination);o.start(start+i*.28);o.stop(start+i*.28+.26);});lyrics.forEach((line,i)=>songTimers.push(setTimeout(()=>{document.getElementById('lyricLine').textContent=line;},i*1400)));songTimers.push(setTimeout(()=>{document.getElementById('lyricLine').textContent='Little stars shine every day!';},5600));}catch(e){alert('Audio could not start. Please check your phone sound settings.');}}
-function stopSong(){songTimers.forEach(clearTimeout);songTimers=[];if(audioCtx){try{audioCtx.suspend();}catch(e){}}}
+function colour(){$('app').innerHTML=`<h2>🎨 Colouring Studio</h2><p class="sub">Choose a picture, pick a colour, then tap any part of the picture to fill it.</p><div class="row"><label for="pictureChoice">Picture:</label><select id="pictureChoice" onchange="drawPicture(this.value)"><option value="lion">Lion</option><option value="butterfly">Butterfly</option><option value="fish">Fish</option><option value="flower">Flower</option><option value="house">House</option><option value="elephant">Elephant</option></select><button class="secondary" onclick="resetPicture()">Start again</button></div><div class="palette">${['#ff6b6b','#ffad5c','#ffe066','#72d69a','#67c8f2','#9b83ee','#ff8ec5','#8b5a3c','#333333','#ffffff'].map(c=>`<button class="swatch" style="background:${c}" aria-label="Choose colour" onclick="selectedColor='${c}'"></button>`).join('')}</div><svg id="paintCanvas" class="paintsvg" viewBox="0 0 300 350" role="img" aria-label="Colouring picture"></svg><p class="small">Tip: Tap a shape to colour it. You can change colours as often as you like.</p><button class="primary" onclick="finishColour()">I finished colouring ⭐</button>`;drawPicture('lion')}
+function drawPicture(name){$('paintCanvas').innerHTML=pictures[name];$('paintCanvas').querySelectorAll('.paintable').forEach(el=>el.addEventListener('click',()=>el.style.fill=selectedColor))}
+function resetPicture(){drawPicture($('pictureChoice').value)}
+function finishColour(){const id='colour-'+age+'-'+$('pictureChoice').value;const fresh=earn(id,5);alert(fresh?'Beautiful artwork! You earned 5 stars ⭐':'You have already earned stars for this picture.');}
+const lyrics=['Little stars, shine so bright,','Learning, laughing, what a sight!','Teddy, Bunny, Monkey too,','There is so much we can do!','Read a story, play a game,','Every day we grow our brain!','Little stars, come out and play,','Shine a little more each day!'];
+let songTimer=null,audioCtx=null;
+function songs(){$('app').innerHTML=`<h2>🎵 Little Stars, Shine Bright!</h2><p class="sub">A cheerful original sing-along. Press play for a simple instrumental tune and follow the words.</p><div class="character">🎤 🧸 🐰 🐵</div><div id="lyricBox" class="treasure" style="text-align:center;font-size:20px;font-weight:900">Ready to sing together?</div><div class="row"><button class="primary" onclick="playSong()">▶ Play song</button><button class="secondary" onclick="stopSong()">■ Stop</button></div><p class="small">This version plays an original instrumental melody with on-screen lyrics. It does not contain recorded singing voices. Device narration voices are available in story time.</p>`}
+function playSong(){stopSong();let i=0;const box=$('lyricBox');function line(){if(i>=lyrics.length){stopSong();box.textContent='Wonderful singing! ⭐';return}box.textContent=lyrics[i];if(window.AudioContext||window.webkitAudioContext){audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const notes=[523,587,659,698,784,698,659,587];const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=notes[i];gain.gain.setValueAtTime(.0001,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.12,audioCtx.currentTime+.03);gain.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+.42);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.45)}i++;songTimer=setTimeout(line,1600)}line()}
+function stopSong(){if(songTimer)clearTimeout(songTimer);songTimer=null;if(audioCtx){/* Keep audio context available for the next play. */}}
+function parent(){if(!window.parentUnlocked){const answer=prompt('Grown-ups only: what is 3 + 4?');if(answer!=='7'){alert('That answer was not correct. Ask a grown-up to try again.');go('home');return}window.parentUnlocked=true}$('app').innerHTML=`<h2>👨‍👩‍👧 Grown-up Dashboard</h2><p class="sub">A simple overview of this device’s local play progress.</p><div class="grid"><article class="tile"><h3>⭐ Star balance</h3><div class="emoji">${state.stars} ⭐</div></article><article class="tile"><h3>Activities completed</h3><div class="emoji">${state.completed.length} ✅</div></article><article class="tile"><h3>Rewards unlocked</h3><div class="emoji">${state.unlocked.length} 🎁</div></article></div><div class="treasure"><b>Progress note</b><p>Stars are awarded after a child completes a story, game or colouring activity. Each activity reward can be claimed once on this device. Purchased items remain unlocked.</p><p>Progress is stored in this browser on this device only. Clearing browser data may erase it. There is no account, online sync or real-money purchase system in this prototype.</p></div><button class="secondary" onclick="window.parentUnlocked=false;go('home')">Close dashboard</button>`}
+setAge(age);render();
 </script>
 </body>
-</html>
+</html>'''
+path = Path("/mnt/data/index.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created {path} ({path.stat().st_size:,} bytes)")
