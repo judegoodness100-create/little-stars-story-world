@@ -1,246 +1,220 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#794de0">
 <title>Little Stars Story World</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#b8edff,#fff0d9);color:#45336c}
-header{text-align:center;padding:24px 12px;background:linear-gradient(120deg,#794de0,#ed80b5);color:white;border-radius:0 0 30px 30px}
-header h1{font-size:29px;margin:5px}
+header{text-align:center;padding:22px 12px;background:linear-gradient(120deg,#794de0,#ed80b5);color:white;border-radius:0 0 30px 30px}
+header h1{font-size:28px;margin:5px}
 header p{margin:5px}
 main{max-width:760px;margin:auto;padding:15px}
 .welcome{text-align:center}
-.characters{display:flex;justify-content:center;gap:15px;font-size:65px;margin:20px 0}
+.characters{display:flex;justify-content:center;gap:15px;font-size:60px;margin:18px 0}
 .character{animation:bounce 2s infinite;display:inline-block}
-.character:nth-child(2){animation-delay:.4s}
-.character:nth-child(3){animation-delay:.8s}
-@keyframes bounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(5deg)}}
-@keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.character:nth-child(2){animation-delay:.4s}.character:nth-child(3){animation-delay:.8s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 h2{text-align:center;color:#7146c9}
 .card{background:white;border-radius:22px;padding:17px;margin:14px 0;box-shadow:0 5px 15px #57418b20}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 button,select{border:0;border-radius:14px;padding:13px;font-size:16px;cursor:pointer}
 button{background:#7950d9;color:white;font-weight:bold}
-button:active{transform:scale(.96)}
+button:active{transform:scale(.97)}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none}
 .menu button{width:100%;min-height:85px;font-size:18px}
 .purple{background:#874de2}.green{background:#20ad79}.orange{background:#f29a27}.blue{background:#239bdf}.pink{background:#e84c9d}
-select{background:#eee6ff;color:#45336c}
-.screen{display:none;text-align:center}
-.screen.active{display:block}
-.big{font-size:65px;margin:12px;animation:bounce 2s infinite}
+select{background:#eee6ff;color:#45336c;max-width:100%}
+.screen{display:none;text-align:center}.screen.active{display:block}
+.big{font-size:62px;margin:12px}
 .storytext{font-size:19px;line-height:1.8;text-align:left}
-.option{display:block;width:100%;margin:10px 0;background:#f0eaff;color:#563c8a}
-.result{font-size:19px;font-weight:bold;min-height:35px;margin:12px}
-.stars{background:#fff1a9;padding:10px;border-radius:20px;text-align:center;font-weight:bold}
+.option{display:block;width:100%;margin:8px 0;background:#f0eaff;color:#563c8a}
+.result{font-size:18px;font-weight:bold;min-height:34px;margin:12px}
+.stars{background:#fff1a9;padding:12px;border-radius:22px;text-align:center;font-weight:bold;font-size:19px}
 footer{text-align:center;padding:25px;color:#7655a0}
+.small{font-size:14px;color:#725e91}
+.game-card{background:#f8f4ff;color:#563c8a;border:2px solid #eee4ff;min-height:112px}
+.game-card span{display:block;font-size:30px;margin-bottom:5px}
+.memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
+.memory-card{background:#8b5add;color:white;min-height:68px;font-size:28px;padding:8px}
+.memory-card.revealed,.memory-card.matched{background:#e9f8f0;color:#2b7959}
+.memory-card.matched{border:2px solid #20ad79}
+.choice-row{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:14px 0}
+.choice{min-width:66px;min-height:58px;font-size:25px;background:#f0eaff;color:#563c8a}
+.object-row{font-size:38px;letter-spacing:4px;line-height:1.8}
+.story-actions,.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+.secondary{background:#e9e1ff;color:#563c8a}
+.success{color:#16845e}.warning{color:#b66b00}
+hr{border:0;border-top:1px solid #eee;margin:18px 0}
+@media(max-width:420px){.memory-grid{gap:5px}.memory-card{min-height:58px;font-size:24px;padding:5px}.grid{gap:8px}.menu button{font-size:16px}}
 </style>
 </head>
 <body>
 <header>
-<div style="font-size:38px">🌈 ⭐ 🧸</div>
+<div style="font-size:36px">🌈 ⭐ 🧸</div>
 <h1>Little Stars Story World</h1>
 <p>Play • Learn • Imagine • Grow</p>
 </header>
 <main>
-<div id="home" class="screen active">
-<div class="welcome">
-<h2>Welcome, Little Star! 🌟</h2>
-<p>Choose your adventure today!</p>
-<select id="age">
-<option>Little Tots (2–4 years)</option>
-<option selected>Bright Stars (5–7 years)</option>
-<option>Super Stars (8–12 years)</option>
-</select>
-</div>
-<div class="characters">
-<span class="character">🧸</span>
-<span class="character">🐰</span>
-<span class="character">🐵</span>
-</div>
-<div class="stars">⭐ Your Stars: <span id="points">0</span></div>
-<div class="card menu">
-<div class="grid">
-<button class="purple" onclick="openScreen('stories')">📚<br>Stories</button>
-<button class="green" onclick="openScreen('games')">🎮<br>Games</button>
-<button class="orange" onclick="openScreen('puzzles')">🧩<br>Puzzles</button>
-<button class="blue" onclick="openScreen('quiz')">🏆<br>Quizzes</button>
-<button class="pink" onclick="openScreen('songs')">🎵<br>Songs & Dance</button>
-<button class="purple" onclick="openScreen('africa')">🌍<br>African Tales</button>
-</div>
-</div>
-<div class="card">
-<h2>🌟 Today's Special</h2>
-<div class="big">🐰</div>
-<h3>The Brave Little Rabbit</h3>
-<button onclick="showStory(0)">Read Story</button>
-</div>
-</div>
+<section id="home" class="screen active">
+ <div class="welcome">
+  <h2>Welcome, Little Star! 🌟</h2>
+  <p>Choose your adventure today!</p>
+  <select id="age" aria-label="Choose age group" onchange="setAge()">
+   <option value="tots">Little Tots (2–4 years)</option>
+   <option value="bright" selected>Bright Stars (5–7 years)</option>
+   <option value="super">Super Stars (8–12 years)</option>
+  </select>
+ </div>
+ <div class="characters"><span class="character">🧸</span><span class="character">🐰</span><span class="character">🐵</span></div>
+ <div class="stars">⭐ Your Stars: <span id="points">0</span><div class="small">Stars are awarded once for each completed activity.</div></div>
+ <div class="card menu"><div class="grid">
+  <button class="purple" onclick="openScreen('stories')">📚<br>Stories</button>
+  <button class="green" onclick="openScreen('games')">🎮<br>Games</button>
+  <button class="orange" onclick="openScreen('puzzles')">🧩<br>Puzzles</button>
+  <button class="blue" onclick="openScreen('quiz')">🏆<br>Quizzes</button>
+  <button class="pink" onclick="openScreen('songs')">🎵<br>Songs & Dance</button>
+  <button class="purple" onclick="openScreen('africa')">🌍<br>African Tales</button>
+ </div></div>
+ <div class="card"><h2>🌟 Today's Special</h2><div class="big">🐰</div><h3 id="featuredStoryTitle">Story of the Day</h3><button onclick="showStory(0)">Read Story</button></div>
+</section>
 
-<div id="stories" class="screen card">
-<h2>📚 Story Library</h2>
-<button class="option" onclick="showStory(0)">🐰 The Brave Little Rabbit</button>
-<button class="option" onclick="showStory(1)">🐵 Monkey's Big Adventure</button>
-<button class="option" onclick="showStory(2)">🧸 Teddy Learns to Share</button>
-<button class="option" onclick="showStory(3)">🌳 The Magic Forest</button>
-<div id="storybox" style="display:none">
-<div class="big" id="storyemoji">🐰</div>
-<h3 id="storytitle"></h3>
-<p class="storytext" id="storytext"></p>
-<button onclick="readStory()">🔊 Read Aloud</button>
-<button onclick="stopReading()">⏹ Stop</button>
-<button onclick="earn()">⭐ I enjoyed this story!</button>
-</div>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="stories" class="screen card">
+ <h2>📚 Story Library</h2>
+ <p id="storyAgeNote" class="small">Stories selected for your age group.</p>
+ <div id="storyList"></div>
+ <div id="storybox" style="display:none">
+  <div class="big" id="storyemoji">🐰</div><h3 id="storytitle"></h3><p class="storytext" id="storytext"></p>
+  <div class="story-actions">
+   <button onclick="readStory()">🔊 Read to Me</button><button class="secondary" onclick="stopReading()">⏹ Stop</button>
+   <button class="green" onclick="completeActivity('story-'+current,'Story completed')">⭐ I finished the story</button>
+  </div>
+  <p class="small">You can read by yourself or ask a grown-up to read with you.</p>
+ </div>
+ <button onclick="goHome()">🏠 Home</button>
+</section>
 
-<div id="games" class="screen card">
-<h2>🎮 Animal Matching Game</h2>
-<p>Find the animal that says MEOW!</p>
-<div class="grid">
-<button class="option" onclick="animal(false)">🐶 Dog</button>
-<button class="option" onclick="animal(true)">🐱 Cat</button>
-<button class="option" onclick="animal(false)">🐮 Cow</button>
-<button class="option" onclick="animal(false)">🦁 Lion</button>
-</div>
-<div class="result" id="gameResult"></div>
-<button onclick="newGame()">🔄 Play Again</button>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="games" class="screen card">
+ <h2>🎮 Little Stars Game Zone</h2>
+ <p>Choose a game and have fun learning!</p>
+ <div id="gameMenu" class="grid">
+  <button class="game-card" onclick="startAnimal()"><span>🐱</span>Animal Sounds</button>
+  <button class="game-card" onclick="startMemory()"><span>🧠</span>Memory Match</button>
+  <button class="game-card" onclick="startCounting()"><span>🍎</span>Count the Objects</button>
+  <button class="game-card" onclick="startAlphabet()"><span>🔤</span>Letter Match</button>
+  <button class="game-card" onclick="startShadow()"><span>🐘</span>Guess the Animal</button>
+  <button class="game-card" onclick="startWord()"><span>📝</span>Word Builder</button>
+ </div>
+ <div id="gamePlay" style="display:none">
+  <hr><h3 id="gameTitle"></h3><p id="gameInstruction"></p>
+  <div id="gameContent"></div><div class="result" id="gameResult" aria-live="polite"></div>
+  <div class="controls"><button class="secondary" onclick="backToGames()">🎮 All Games</button><button onclick="goHome()">🏠 Home</button></div>
+ </div>
+ <button onclick="goHome()">🏠 Home</button>
+</section>
 
-<div id="puzzles" class="screen card">
-<h2>🧩 Number Puzzle</h2>
-<p>What number comes after 4?</p>
-<div class="grid">
-<button class="option" onclick="puzzle(false)">3</button>
-<button class="option" onclick="puzzle(true)">5</button>
-<button class="option" onclick="puzzle(false)">7</button>
-<button class="option" onclick="puzzle(false)">9</button>
-</div>
-<div class="result" id="puzzleResult"></div>
-<button onclick="openScreen('puzzles')">🔄 Try Again</button>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="puzzles" class="screen card">
+ <h2>🧩 Number Puzzle</h2><p>What number comes after 4?</p>
+ <div class="grid"><button class="option" onclick="puzzle(false)">3</button><button class="option" onclick="puzzle(true)">5</button><button class="option" onclick="puzzle(false)">7</button><button class="option" onclick="puzzle(false)">9</button></div>
+ <div class="result" id="puzzleResult"></div><button onclick="resetPuzzle()">🔄 Try Again</button><button onclick="goHome()">🏠 Home</button>
+</section>
 
-<div id="quiz" class="screen card">
-<h2>🏆 Little Star Quiz</h2>
-<p>How many legs does a dog have?</p>
-<div class="grid">
-<button class="option" onclick="answer(false)">2</button>
-<button class="option" onclick="answer(true)">4</button>
-<button class="option" onclick="answer(false)">6</button>
-<button class="option" onclick="answer(false)">8</button>
-</div>
-<div class="result" id="quizResult"></div>
-<button onclick="openScreen('quiz')">🔄 Try Again</button>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="quiz" class="screen card">
+ <h2>🏆 Little Star Quiz</h2><p id="quizQuestion">How many legs does a dog have?</p>
+ <div class="grid" id="quizOptions">
+  <button class="option" onclick="answer(false)">2</button><button class="option" onclick="answer(true)">4</button><button class="option" onclick="answer(false)">6</button><button class="option" onclick="answer(false)">8</button>
+ </div>
+ <div class="result" id="quizResult"></div><button onclick="resetQuiz()">🔄 Try Again</button><button onclick="goHome()">🏠 Home</button>
+</section>
 
-<div id="songs" class="screen card">
-<h2>🎵 Sing & Dance!</h2>
-<div class="characters">
-<span class="character">🧸</span>
-<span class="character">🐰</span>
-<span class="character">🐵</span>
-</div>
-<h3>Little Stars, Shine Bright!</h3>
-<p>Clap your hands, jump up high,</p>
-<p>Wave your hands up to the sky!</p>
-<p>Dance together, laugh and play,</p>
-<p>Little stars shine every day!</p>
-<button onclick="sing()">🔊 Listen & Sing</button>
-<button onclick="stopReading()">⏹ Stop</button>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="songs" class="screen card">
+ <h2>🎵 Sing & Dance!</h2><div class="characters"><span class="character">🧸</span><span class="character">🐰</span><span class="character">🐵</span></div>
+ <h3>Little Stars, Shine Bright!</h3>
+ <p id="lyricLine" style="font-size:21px;font-weight:bold;min-height:56px">Clap your hands, jump up high!</p>
+ <p>Play the original tune and sing along with your family!</p>
+ <button onclick="playSong()">▶ Play melody & lyrics</button><button class="secondary" onclick="stopSong()">⏹ Stop</button>
+ <p class="small">This version plays a simple instrumental melody with timed lyrics. Sung human/choir vocals will be added as a separate audio recording; this button does not pretend spoken narration is singing.</p>
+ <button onclick="goHome()">🏠 Home</button>
+</section>
 
-<div id="africa" class="screen card">
-<h2>🌍 African Story World</h2>
-<div class="big">🥁 🦁 🌴</div>
-<h3>Discover Africa!</h3>
-<p>Explore African animals, traditions, folktales and beautiful cultures.</p>
-<button onclick="showAfrican()">📖 The Tortoise and His Wisdom</button>
-<div id="africanStory" class="storytext" style="display:none">
-<p>Once upon a time, Tortoise wanted all the wisdom in the world for himself. He gathered it into a pot and tried to hide it in a tall tree. But he could not climb easily while carrying the pot in front of him.</p>
-<p>His son suggested carrying it on his back. Tortoise realised that even a child could teach him something. He learned that wisdom grows when we share and listen to others.</p>
-<p>The end! 🌟</p>
-</div>
-<button onclick="goHome()">🏠 Home</button>
-</div>
+<section id="africa" class="screen card">
+ <h2>🌍 African Story World</h2><div class="big">🥁 🦁 🌴</div><h3>Discover Africa!</h3>
+ <p>Explore African animals, traditions, folktales and beautiful cultures.</p>
+ <button class="option" onclick="showAfrican()">📖 The Tortoise and His Wisdom</button>
+ <div id="africanStory" style="display:none">
+  <p class="storytext" id="africanText"></p>
+  <div class="story-actions">
+   <button onclick="readAfrican()">🔊 Read to Me</button><button class="secondary" onclick="stopReading()">⏹ Stop</button>
+   <button class="green" onclick="completeActivity('african-tortoise','African tale completed')">⭐ I finished reading</button>
+  </div>
+ </div>
+ <button onclick="goHome()">🏠 Home</button>
+</section>
 </main>
 <footer>Made with ❤️ for every Little Star!<br>Dream Big • Shine Bright</footer>
+
 <script>
-let score=0;
-let current=0;
-const data=[
-["🐰","The Brave Little Rabbit","Ruby the little rabbit heard a bird crying in the forest. It had fallen from its nest. Ruby called her friends and together they helped the bird return home. The bird was happy. Ruby learned that even little friends can do big things. The End!"],
-["🐵","Monkey's Big Adventure","Milo the monkey loved exploring. One day he followed a colourful butterfly into a magical garden. He found beautiful flowers and singing birds. He invited his friends to enjoy the garden too. Sharing made the adventure even better. The End!"],
-["🧸","Teddy Learns to Share","Teddy had a beautiful red ball. His friend Bunny wanted to play. At first Teddy refused, but then he decided to share. They laughed and played together. Teddy discovered that sharing makes happiness grow. The End!"],
-["🌳","The Magic Forest","A little girl named Mimi discovered a magical forest. She met talking birds, friendly elephants and a wise old tree. Everyone worked together to keep the forest clean. Mimi learned to care for nature. The End!"]
-];
-function openScreen(id){
-document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-stopReading();
+const STORAGE_KEY='littleStarsProgressV2';
+let progress={stars:0,completed:[]};
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null');if(saved&&Array.isArray(saved.completed)){progress=saved;}}catch(e){}
+let current=0, age='bright', activeGame='', memoryDeck=[],memoryOpen=[],memoryMatches=0,gameRound=0,gameDone=false;
+const storyCollections={
+ tots:[
+  ["🐰","Bunny Finds a Carrot","Bunny sees a carrot. It is orange! Bunny hops to the carrot. Crunch, crunch! Bunny is happy. The End!"],
+  ["🐻","Teddy's Big Hug","Teddy sees Bunny. Bunny feels sad. Teddy gives Bunny a big hug. Now they both smile. The End!"],
+  ["🐵","Monkey Says Hello","Momo the monkey waves. Hello, bird! Hello, elephant! His friends wave back. What a happy day! The End!"],
+  ["🐘","Baby Elephant's Splash","Baby Elephant finds a little pond. Splash! He plays in the water and cools down in the sun. The End!"]
+ ],
+ bright:[
+  ["🐰","The Brave Little Rabbit","Ruby the little rabbit heard a bird crying in the forest. It had fallen from its nest. Ruby called her friends and together they helped the bird return home. The bird was happy. Ruby learned that even little friends can do big things. The End!"],
+  ["🐵","Monkey's Big Adventure","Milo the monkey loved exploring. One day he followed a colourful butterfly into a magical garden. He found beautiful flowers and singing birds. He invited his friends to enjoy the garden too. Sharing made the adventure even better. The End!"],
+  ["🧸","Teddy Learns to Share","Teddy had a beautiful red ball. His friend Bunny wanted to play. At first Teddy refused, but then he decided to share. They laughed and played together. Teddy discovered that sharing makes happiness grow. The End!"],
+  ["🌳","The Magic Forest","A little girl named Mimi discovered a magical forest. She met talking birds, friendly elephants and a wise old tree. Everyone worked together to keep the forest clean. Mimi learned to care for nature. The End!"]
+ ],
+ super:[
+  ["🦁","The Lion Who Listened","In a wide grassland, a young lion named Kito believed that being a leader meant always giving orders. When the river began to dry, the animals argued about what to do. Kito finally listened to the small weaver bird, who had noticed a hidden stream beyond the hills. The animals worked together to reach it. Kito learned that a wise leader listens before speaking. The End!"],
+  ["🐢","Tortoise and the Borrowed Drum","At the village celebration, Tortoise borrowed a beautiful drum and promised to return it before sunset. He became so excited by the dancing that he forgot his promise. When the owner came looking, Tortoise admitted his mistake and returned the drum. He apologised and helped repair its loose strap. He learned that trust grows when promises are kept—and can be rebuilt through honest actions. The End!"],
+  ["🌳","The Forest Keepers","A group of children noticed that rubbish was collecting near the stream beside their community. They interviewed elders, organised a clean-up and planted native trees along the bank. At first, only a few neighbours joined. Then more families saw the difference and volunteered. The children discovered that protecting nature takes patience, knowledge and teamwork. The End!"],
+  ["🧭","The Map of Many Paths","Amara found an old map showing paths between several villages. She wanted to find the shortest route to the festival, but each path crossed a different landscape. She asked farmers, fishers and elders about the land. Their knowledge helped her choose a safe route and understand how connected the communities were. Amara learned that maps show places, while people help us understand them. The End!"]
+ ]
+};
+let stories=storyCollections[age]||storyCollections.bright;
+function renderStoryList(){
+ stories=storyCollections[age]||storyCollections.bright;
+ const names={tots:'Little Tots (2–4): short stories with simple words',bright:'Bright Stars (5–7): fun stories with clear lessons',super:'Super Stars (8–12): longer stories with richer ideas'};
+ document.getElementById('storyAgeNote').textContent=names[age];
+ document.getElementById('storyList').innerHTML=stories.map((s,i)=>'<button class="option" onclick="showStory('+i+')">'+s[0]+' '+s[1]+'</button>').join('');
+ document.getElementById('storybox').style.display='none';\n document.getElementById('featuredStoryTitle').textContent=stories[0][1];
 }
-function goHome(){openScreen("home")}
-function showStory(i){
-current=i;
-openScreen("stories");
-document.getElementById("storybox").style.display="block";
-document.getElementById("storyemoji").textContent=data[i][0];
-document.getElementById("storytitle").textContent=data[i][1];
-document.getElementById("storytext").textContent=data[i][2];
+function saveProgress(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(progress));}catch(e){}document.getElementById('points').textContent=progress.stars;}
+function completeActivity(id,label){
+ if(progress.completed.includes(id)){alert('You have already earned the star for this activity. Keep learning, Little Star! ⭐');return;}
+ progress.completed.push(id);progress.stars+=5;saveProgress();alert('Well done! You completed '+label+' and earned 5 stars! ⭐');
 }
-function earn(){
-score+=5;
-document.getElementById("points").textContent=score;
-alert("Wonderful! You earned 5 stars! ⭐");
-}
-function readStory(){
-speak(data[current][2]);
-}
-function speak(text){
-if(!("speechSynthesis" in window)){
-alert("Voice reading is unavailable on this browser.");
-return;
-}
-speechSynthesis.cancel();
-let msg=new SpeechSynthesisUtterance(text);
-msg.lang="en-NG";
-msg.rate=.85;
-let voices=speechSynthesis.getVoices();
-let female=voices.find(v=>/female|woman/i.test(v.name));
-if(female)msg.voice=female;
-speechSynthesis.speak(msg);
-}
-function stopReading(){
-if("speechSynthesis" in window)speechSynthesis.cancel();
-}
-function animal(correct){
-let r=document.getElementById("gameResult");
-if(correct){r.textContent="Amazing! Cats say MEOW! ⭐";earn()}
-else r.textContent="Try again, Little Star! 💜";
-}
-function newGame(){document.getElementById("gameResult").textContent=""}
-function puzzle(correct){
-let r=document.getElementById("puzzleResult");
-if(correct){r.textContent="Fantastic! 5 comes after 4! ⭐";earn()}
-else r.textContent="Not quite! Try again! 💜";
-}
-function answer(correct){
-let r=document.getElementById("quizResult");
-if(correct){r.textContent="Correct! Dogs have four legs! ⭐";earn()}
-else r.textContent="Keep trying, smart star! 💜";
-}
-function sing(){
-speak("Little Stars, Shine Bright! Clap your hands, jump up high. Wave your hands up to the sky. Dance together, laugh and play. Little stars shine every day!");
-}
-function showAfrican(){
-document.getElementById("africanStory").style.display="block";
-}
-</script>
-</body>
-  </html>
-  
+saveProgress();
+function setAge(){age=document.getElementById('age').value;renderStoryList();}
+function openScreen(id){stopReading();stopSong();document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goHome(){openScreen('home')}
+function showStory(i){current=i;openScreen('stories');document.getElementById('storybox').style.display='block';document.getElementById('storyemoji').textContent=stories[i][0];document.getElementById('storytitle').textContent=stories[i][1];document.getElementById('storytext').textContent=stories[i][2];}
+function speak(text){if(!('speechSynthesis'in window)){alert('Voice reading is unavailable on this browser.');return;}speechSynthesis.cancel();let msg=new SpeechSynthesisUtterance(text);msg.lang='en-NG';msg.rate=.88;let voices=speechSynthesis.getVoices();let voice=voices.find(v=>/female|woman/i.test(v.name))||voices.find(v=>v.lang&&v.lang.startsWith('en'));if(voice)msg.voice=voice;speechSynthesis.speak(msg);}
+function readStory(){speak(stories[current][2]);}
+function readAfrican(){speak(document.getElementById('africanText').innerText);}
+function stopReading(){if('speechSynthesis'in window)speechSynthesis.cancel();}
+const africanVersions={
+ tots:"Tortoise found a big pot. He put it on his tummy. Oh dear! It was hard to climb the tree. His son helped him. Tortoise smiled. We can learn from one another. The End!",
+ bright:"Once upon a time, Tortoise wanted all the wisdom in the world for himself. He gathered it into a pot and tried to hide it in a tall tree. But the pot made climbing difficult. His son suggested carrying it on his back. Tortoise learned that even a child can teach us something, and that sharing wisdom makes everyone stronger. The End!",
+ super:"In a village long ago, Tortoise decided that he should keep all the world's wisdom for himself. He collected wise sayings, lessons and ideas in a pot and climbed a tree to hide them. The pot kept bumping against the trunk, making the climb almost impossible. His child watched and suggested tying the pot securely behind him. Tortoise realised that he had overlooked a simple solution because he refused to listen. He climbed down, shared what he had gathered and discovered that knowledge becomes more valuable when it is exchanged. The End!"
+};
+function showAfrican(){document.getElementById('africanStory').style.display='block';document.getElementById('africanText').textContent=africanVersions[age]||africanVersions.bright;}\nrenderStoryList();
+function backToGames(){document.getElementById('gamePlay').style.display='none';document.getElementById('gameMenu').style.display='grid';document.getElementById('gameResult').textContent='';}
+function gameSetup(title,instruction){activeGame=title;gameDone=false;document.getElementById('gameMenu').style.display='none';document.getElementById('gamePlay').style.display='block';document.getElementById('gameTitle').textContent=title;document.getElementById('gameInstruction').textContent=instruction;document.getElementById('gameContent').innerHTML='';document.getElementById('gameResult').textContent='';}
+function gameWin(message){if(gameDone)return;gameDone=true;document.getElementById('gameResult').textContent=message+' ⭐';completeActivity('game-'+activeGame.toLowerCase().replace(/[^a-z0-9]+/g,'-'),activeGame);}
+function startAnimal(){gameSetup('Animal Sounds','Which animal says MEOW?');let c=document.getElementById('gameContent');c.innerHTML='<div class="big">🔊</div><div class="grid"><button class="option" onclick="animalChoice(false)">🐶 Dog</button><button class="option" onclick="animalChoice(true)">🐱 Cat</button><button class="option" onclick="animalChoice(false)">🐮 Cow</button><button class="option" onclick="animalChoice(false)">🦁 Lion</button></div>';}
+function animalChoice(ok){if(gameDone)return;if(ok)gameWin('Amazing! Cats say MEOW!');else document.getElementById('gameResult').textContent='Not quite. Try again! 💜';}
+function startMemory(){gameSetup('Memory Match','Turn over two cards and find all three matching pairs.');let faces=['🐸','🐸','🦋','🦋','🐼','🐼'];memoryDeck=faces.sort(()=>Math.random()-.5);memoryOpen=[];memoryMatches=0;let c=document.getElementById('gameContent');c.innerHTML='<div class="memory-grid" id="memoryGrid"></div>';memoryDeck.forEach((face,i)=>{let b=document.createElement('button');b.className='memory-card';b.textContent='❔';b.dataset.index=i;b.onclick=()=>flipMemory(i,b);document.getElementById('memoryGrid').appendChild(b);});}
+function flipMemory(i,b){if(gameDone||b.classList.contains('matched')||b.classList.contains('revealed')||memoryOpen.length===2)return;b.textContent=memoryDeck[i];b.classList.add('revealed');memoryOpen.push({i,b});if(memoryOpen.length===2){let [a,d]=memoryOpen;if(memoryDeck[a.i]===memoryDeck[d.i]){a.b.classList.add('matched');d.b.classList.add('matched');memoryMatches++;memoryOpen=[];if(memoryMatches===3)gameWin('Brilliant memory! You found every pair!');}else{setTimeout(()=>{a.b.textContent='❔';d.b.textContent='❔';a.b.classList.remove('revealed');d.b.classList.remove('revealed');memoryOpen=[];},700);}}}
+function startCounting(){gameSetup('Count the Objects','Count the apples. How many can you see?');let n=age==='tots'?3:age==='bright'?5:7;let emojis='🍎 '.repeat(n);document.getElementById('gameContent').innerHTML='<div class="object-row">'+emojis+'</div><div class="choice-row">'+[n-1,n,n+2].map(x=>'<button class="choice" onclick="countChoice('+x+','+n+')">'+x+'</button>').join('')+'</div>';}
+function countChoice(choice,n){if(gameDone)return;if(choice===n)gameWin('Correct! You counted '+n+' apples!');else document.getElementById('gameResult').textContent='Count them one more time! 🍎';}
+function startAlphabet(){gameSetup('
