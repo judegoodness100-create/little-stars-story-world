@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Little Stars Story World</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#fff7ed;color:#44345b}
+header{background:linear-gradient(135deg,#7654cf,#f18bb8);color:white;text-align:center;padding:30px 15px;border-radius:0 0 28px 28px}
+header h1{font-size:29px;margin:5px}
+header p{margin:8px}
+main{max-width:700px;margin:auto;padding:18px}
+h2{color:#6547a5}
+.welcome{text-align:center;font-size:17px}
+.stars{text-align:center;font-size:35px;margin:12px}
+.card{background:white;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 14px #00000012}
+button,select{border:0;border-radius:12px;padding:12px;font-size:15px;margin:5px;cursor:pointer}
+button{background:#7654cf;color:white}
+select{background:#f0e9ff;color:#44345b}
+.story{display:none;line-height:1.8;font-size:18px}
+.story h3{text-align:center;color:#7654cf}
+footer{text-align:center;padding:25px;color:#806e91}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:42px">🌟📚🧸</div>
+<h1>Little Stars Story World</h1>
+<p>Big Adventures for Little Dreamers!</p>
+</header>
+<main>
+<div class="stars">🐰 🐵 🧸</div>
+<div class="welcome">
+<h2>Hello, Little Star!</h2>
+<p>Welcome to a magical world of stories, fun and imagination.</p>
+</div>
+<div class="card">
+<h2>🌈 Choose Your Age</h2>
+<select id="age">
+<option value="2-5">2–5 years</option>
+<option value="6-8">6–8 years</option>
+<option value="9-12">9–12 years</option>
+</select>
+<h2>🎤 Choose Your Narrator</h2>
+<select id="voice">
+<option value="female">Female voice</option>
+<option value="male">Male voice</option>
+</select>
+</div>
+<div class="card">
+<h2>📖 Pick a Story</h2>
+<button onclick="showStory('rabbit')">🐰 The Brave Little Rabbit</button>
+<button onclick="showStory('monkey')">🐵 Monkey's Big Adventure</button>
+<button onclick="showStory('teddy')">🧸 Teddy Learns to Share</button>
+</div>
+<div class="card story" id="story">
+<h3 id="storyTitle"></h3>
+<p id="storyText"></p>
+<button onclick="readStory()">🔊 Read My Story</button>
+<button onclick="stopStory()">⏹ Stop</button>
+</div>
+</main>
+<footer>Made with ❤️ for every Little Star.</footer>
+<script>
+const stories={
+rabbit:{
+title:"🐰 The Brave Little Rabbit",
+text:"Once upon a time, there lived a little rabbit named Ruby. One sunny morning, Ruby heard a tiny bird crying in the forest. The bird had fallen from its nest. Ruby called her friends, and together they helped the bird return home. The bird chirped happily. Ruby learned that even the smallest friend can do something very big. The end!"
+},
+monkey:{
+title:"🐵 Monkey's Big Adventure",
+text:"Milo was a playful little monkey who loved exploring. One day, he found a colourful butterfly near a river. He followed it through the forest and discovered a beautiful garden. There were flowers, butterflies and singing birds. Milo shared the garden with his friends. It became their favourite place. The end!"
+},
+teddy:{
+title:"🧸 Teddy Learns to Share",
+text:"Teddy had a beautiful red ball. One afternoon, his friend Bunny came to play. Teddy wanted the ball all to himself. But when he saw Bunny looking sad, he decided to share. They played together and laughed all afternoon. Teddy discovered that sharing makes happiness grow. The end!"
+}
+};
+function showStory(id){
+let s=stories[id];
+document.getElementById("storyTitle").textContent=s.title;
+document.getElementById("storyText").textContent=s.text;
+document.getElementById("story").style.display="block";
+document.getElementById("story").scrollIntoView({behavior:"smooth"});
+}
+function readStory(){
+if(!("speechSynthesis" in window)){alert("Voice reading is not supported on this browser.");return;}
+speechSynthesis.cancel();
+let msg=new SpeechSynthesisUtterance(document.getElementById("storyText").textContent);
+let choice=document.getElementById("voice").value;
+let voices=speechSynthesis.getVoices();
+let match=voices.find(v=>choice==="female"?/female|woman/i.test(v.name):/male|man/i.test(v.name));
+if(match)msg.voice=match;
+msg.lang="en-NG";
+msg.rate=0.85;
+speechSynthesis.speak(msg);
+}
+function stopStory(){speechSynthesis.cancel();}
+</script>
+</body>
+  </html>
+  
