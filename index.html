@@ -7,97 +7,239 @@
 <title>Little Stars Story World</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#fff7ed;color:#44345b}
-header{background:linear-gradient(135deg,#7654cf,#f18bb8);color:white;text-align:center;padding:30px 15px;border-radius:0 0 28px 28px}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#b8edff,#fff0d9);color:#45336c}
+header{text-align:center;padding:24px 12px;background:linear-gradient(120deg,#794de0,#ed80b5);color:white;border-radius:0 0 30px 30px}
 header h1{font-size:29px;margin:5px}
-header p{margin:8px}
-main{max-width:700px;margin:auto;padding:18px}
-h2{color:#6547a5}
-.welcome{text-align:center;font-size:17px}
-.stars{text-align:center;font-size:35px;margin:12px}
-.card{background:white;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 4px 14px #00000012}
-button,select{border:0;border-radius:12px;padding:12px;font-size:15px;margin:5px;cursor:pointer}
-button{background:#7654cf;color:white}
-select{background:#f0e9ff;color:#44345b}
-.story{display:none;line-height:1.8;font-size:18px}
-.story h3{text-align:center;color:#7654cf}
-footer{text-align:center;padding:25px;color:#806e91}
+header p{margin:5px}
+main{max-width:760px;margin:auto;padding:15px}
+.welcome{text-align:center}
+.characters{display:flex;justify-content:center;gap:15px;font-size:65px;margin:20px 0}
+.character{animation:bounce 2s infinite;display:inline-block}
+.character:nth-child(2){animation-delay:.4s}
+.character:nth-child(3){animation-delay:.8s}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(5deg)}}
+@keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+h2{text-align:center;color:#7146c9}
+.card{background:white;border-radius:22px;padding:17px;margin:14px 0;box-shadow:0 5px 15px #57418b20}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+button,select{border:0;border-radius:14px;padding:13px;font-size:16px;cursor:pointer}
+button{background:#7950d9;color:white;font-weight:bold}
+button:active{transform:scale(.96)}
+.menu button{width:100%;min-height:85px;font-size:18px}
+.purple{background:#874de2}.green{background:#20ad79}.orange{background:#f29a27}.blue{background:#239bdf}.pink{background:#e84c9d}
+select{background:#eee6ff;color:#45336c}
+.screen{display:none;text-align:center}
+.screen.active{display:block}
+.big{font-size:65px;margin:12px;animation:bounce 2s infinite}
+.storytext{font-size:19px;line-height:1.8;text-align:left}
+.option{display:block;width:100%;margin:10px 0;background:#f0eaff;color:#563c8a}
+.result{font-size:19px;font-weight:bold;min-height:35px;margin:12px}
+.stars{background:#fff1a9;padding:10px;border-radius:20px;text-align:center;font-weight:bold}
+footer{text-align:center;padding:25px;color:#7655a0}
 </style>
 </head>
 <body>
 <header>
-<div style="font-size:42px">🌟📚🧸</div>
+<div style="font-size:38px">🌈 ⭐ 🧸</div>
 <h1>Little Stars Story World</h1>
-<p>Big Adventures for Little Dreamers!</p>
+<p>Play • Learn • Imagine • Grow</p>
 </header>
 <main>
-<div class="stars">🐰 🐵 🧸</div>
+<div id="home" class="screen active">
 <div class="welcome">
-<h2>Hello, Little Star!</h2>
-<p>Welcome to a magical world of stories, fun and imagination.</p>
-</div>
-<div class="card">
-<h2>🌈 Choose Your Age</h2>
+<h2>Welcome, Little Star! 🌟</h2>
+<p>Choose your adventure today!</p>
 <select id="age">
-<option value="2-5">2–5 years</option>
-<option value="6-8">6–8 years</option>
-<option value="9-12">9–12 years</option>
+<option>Little Tots (2–4 years)</option>
+<option selected>Bright Stars (5–7 years)</option>
+<option>Super Stars (8–12 years)</option>
 </select>
-<h2>🎤 Choose Your Narrator</h2>
-<select id="voice">
-<option value="female">Female voice</option>
-<option value="male">Male voice</option>
-</select>
+</div>
+<div class="characters">
+<span class="character">🧸</span>
+<span class="character">🐰</span>
+<span class="character">🐵</span>
+</div>
+<div class="stars">⭐ Your Stars: <span id="points">0</span></div>
+<div class="card menu">
+<div class="grid">
+<button class="purple" onclick="openScreen('stories')">📚<br>Stories</button>
+<button class="green" onclick="openScreen('games')">🎮<br>Games</button>
+<button class="orange" onclick="openScreen('puzzles')">🧩<br>Puzzles</button>
+<button class="blue" onclick="openScreen('quiz')">🏆<br>Quizzes</button>
+<button class="pink" onclick="openScreen('songs')">🎵<br>Songs & Dance</button>
+<button class="purple" onclick="openScreen('africa')">🌍<br>African Tales</button>
+</div>
 </div>
 <div class="card">
-<h2>📖 Pick a Story</h2>
-<button onclick="showStory('rabbit')">🐰 The Brave Little Rabbit</button>
-<button onclick="showStory('monkey')">🐵 Monkey's Big Adventure</button>
-<button onclick="showStory('teddy')">🧸 Teddy Learns to Share</button>
+<h2>🌟 Today's Special</h2>
+<div class="big">🐰</div>
+<h3>The Brave Little Rabbit</h3>
+<button onclick="showStory(0)">Read Story</button>
 </div>
-<div class="card story" id="story">
-<h3 id="storyTitle"></h3>
-<p id="storyText"></p>
-<button onclick="readStory()">🔊 Read My Story</button>
-<button onclick="stopStory()">⏹ Stop</button>
+</div>
+
+<div id="stories" class="screen card">
+<h2>📚 Story Library</h2>
+<button class="option" onclick="showStory(0)">🐰 The Brave Little Rabbit</button>
+<button class="option" onclick="showStory(1)">🐵 Monkey's Big Adventure</button>
+<button class="option" onclick="showStory(2)">🧸 Teddy Learns to Share</button>
+<button class="option" onclick="showStory(3)">🌳 The Magic Forest</button>
+<div id="storybox" style="display:none">
+<div class="big" id="storyemoji">🐰</div>
+<h3 id="storytitle"></h3>
+<p class="storytext" id="storytext"></p>
+<button onclick="readStory()">🔊 Read Aloud</button>
+<button onclick="stopReading()">⏹ Stop</button>
+<button onclick="earn()">⭐ I enjoyed this story!</button>
+</div>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="games" class="screen card">
+<h2>🎮 Animal Matching Game</h2>
+<p>Find the animal that says MEOW!</p>
+<div class="grid">
+<button class="option" onclick="animal(false)">🐶 Dog</button>
+<button class="option" onclick="animal(true)">🐱 Cat</button>
+<button class="option" onclick="animal(false)">🐮 Cow</button>
+<button class="option" onclick="animal(false)">🦁 Lion</button>
+</div>
+<div class="result" id="gameResult"></div>
+<button onclick="newGame()">🔄 Play Again</button>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="puzzles" class="screen card">
+<h2>🧩 Number Puzzle</h2>
+<p>What number comes after 4?</p>
+<div class="grid">
+<button class="option" onclick="puzzle(false)">3</button>
+<button class="option" onclick="puzzle(true)">5</button>
+<button class="option" onclick="puzzle(false)">7</button>
+<button class="option" onclick="puzzle(false)">9</button>
+</div>
+<div class="result" id="puzzleResult"></div>
+<button onclick="openScreen('puzzles')">🔄 Try Again</button>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="quiz" class="screen card">
+<h2>🏆 Little Star Quiz</h2>
+<p>How many legs does a dog have?</p>
+<div class="grid">
+<button class="option" onclick="answer(false)">2</button>
+<button class="option" onclick="answer(true)">4</button>
+<button class="option" onclick="answer(false)">6</button>
+<button class="option" onclick="answer(false)">8</button>
+</div>
+<div class="result" id="quizResult"></div>
+<button onclick="openScreen('quiz')">🔄 Try Again</button>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="songs" class="screen card">
+<h2>🎵 Sing & Dance!</h2>
+<div class="characters">
+<span class="character">🧸</span>
+<span class="character">🐰</span>
+<span class="character">🐵</span>
+</div>
+<h3>Little Stars, Shine Bright!</h3>
+<p>Clap your hands, jump up high,</p>
+<p>Wave your hands up to the sky!</p>
+<p>Dance together, laugh and play,</p>
+<p>Little stars shine every day!</p>
+<button onclick="sing()">🔊 Listen & Sing</button>
+<button onclick="stopReading()">⏹ Stop</button>
+<button onclick="goHome()">🏠 Home</button>
+</div>
+
+<div id="africa" class="screen card">
+<h2>🌍 African Story World</h2>
+<div class="big">🥁 🦁 🌴</div>
+<h3>Discover Africa!</h3>
+<p>Explore African animals, traditions, folktales and beautiful cultures.</p>
+<button onclick="showAfrican()">📖 The Tortoise and His Wisdom</button>
+<div id="africanStory" class="storytext" style="display:none">
+<p>Once upon a time, Tortoise wanted all the wisdom in the world for himself. He gathered it into a pot and tried to hide it in a tall tree. But he could not climb easily while carrying the pot in front of him.</p>
+<p>His son suggested carrying it on his back. Tortoise realised that even a child could teach him something. He learned that wisdom grows when we share and listen to others.</p>
+<p>The end! 🌟</p>
+</div>
+<button onclick="goHome()">🏠 Home</button>
 </div>
 </main>
-<footer>Made with ❤️ for every Little Star.</footer>
+<footer>Made with ❤️ for every Little Star!<br>Dream Big • Shine Bright</footer>
 <script>
-const stories={
-rabbit:{
-title:"🐰 The Brave Little Rabbit",
-text:"Once upon a time, there lived a little rabbit named Ruby. One sunny morning, Ruby heard a tiny bird crying in the forest. The bird had fallen from its nest. Ruby called her friends, and together they helped the bird return home. The bird chirped happily. Ruby learned that even the smallest friend can do something very big. The end!"
-},
-monkey:{
-title:"🐵 Monkey's Big Adventure",
-text:"Milo was a playful little monkey who loved exploring. One day, he found a colourful butterfly near a river. He followed it through the forest and discovered a beautiful garden. There were flowers, butterflies and singing birds. Milo shared the garden with his friends. It became their favourite place. The end!"
-},
-teddy:{
-title:"🧸 Teddy Learns to Share",
-text:"Teddy had a beautiful red ball. One afternoon, his friend Bunny came to play. Teddy wanted the ball all to himself. But when he saw Bunny looking sad, he decided to share. They played together and laughed all afternoon. Teddy discovered that sharing makes happiness grow. The end!"
+let score=0;
+let current=0;
+const data=[
+["🐰","The Brave Little Rabbit","Ruby the little rabbit heard a bird crying in the forest. It had fallen from its nest. Ruby called her friends and together they helped the bird return home. The bird was happy. Ruby learned that even little friends can do big things. The End!"],
+["🐵","Monkey's Big Adventure","Milo the monkey loved exploring. One day he followed a colourful butterfly into a magical garden. He found beautiful flowers and singing birds. He invited his friends to enjoy the garden too. Sharing made the adventure even better. The End!"],
+["🧸","Teddy Learns to Share","Teddy had a beautiful red ball. His friend Bunny wanted to play. At first Teddy refused, but then he decided to share. They laughed and played together. Teddy discovered that sharing makes happiness grow. The End!"],
+["🌳","The Magic Forest","A little girl named Mimi discovered a magical forest. She met talking birds, friendly elephants and a wise old tree. Everyone worked together to keep the forest clean. Mimi learned to care for nature. The End!"]
+];
+function openScreen(id){
+document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+stopReading();
 }
-};
-function showStory(id){
-let s=stories[id];
-document.getElementById("storyTitle").textContent=s.title;
-document.getElementById("storyText").textContent=s.text;
-document.getElementById("story").style.display="block";
-document.getElementById("story").scrollIntoView({behavior:"smooth"});
+function goHome(){openScreen("home")}
+function showStory(i){
+current=i;
+openScreen("stories");
+document.getElementById("storybox").style.display="block";
+document.getElementById("storyemoji").textContent=data[i][0];
+document.getElementById("storytitle").textContent=data[i][1];
+document.getElementById("storytext").textContent=data[i][2];
+}
+function earn(){
+score+=5;
+document.getElementById("points").textContent=score;
+alert("Wonderful! You earned 5 stars! ⭐");
 }
 function readStory(){
-if(!("speechSynthesis" in window)){alert("Voice reading is not supported on this browser.");return;}
+speak(data[current][2]);
+}
+function speak(text){
+if(!("speechSynthesis" in window)){
+alert("Voice reading is unavailable on this browser.");
+return;
+}
 speechSynthesis.cancel();
-let msg=new SpeechSynthesisUtterance(document.getElementById("storyText").textContent);
-let choice=document.getElementById("voice").value;
-let voices=speechSynthesis.getVoices();
-let match=voices.find(v=>choice==="female"?/female|woman/i.test(v.name):/male|man/i.test(v.name));
-if(match)msg.voice=match;
+let msg=new SpeechSynthesisUtterance(text);
 msg.lang="en-NG";
-msg.rate=0.85;
+msg.rate=.85;
+let voices=speechSynthesis.getVoices();
+let female=voices.find(v=>/female|woman/i.test(v.name));
+if(female)msg.voice=female;
 speechSynthesis.speak(msg);
 }
-function stopStory(){speechSynthesis.cancel();}
+function stopReading(){
+if("speechSynthesis" in window)speechSynthesis.cancel();
+}
+function animal(correct){
+let r=document.getElementById("gameResult");
+if(correct){r.textContent="Amazing! Cats say MEOW! ⭐";earn()}
+else r.textContent="Try again, Little Star! 💜";
+}
+function newGame(){document.getElementById("gameResult").textContent=""}
+function puzzle(correct){
+let r=document.getElementById("puzzleResult");
+if(correct){r.textContent="Fantastic! 5 comes after 4! ⭐";earn()}
+else r.textContent="Not quite! Try again! 💜";
+}
+function answer(correct){
+let r=document.getElementById("quizResult");
+if(correct){r.textContent="Correct! Dogs have four legs! ⭐";earn()}
+else r.textContent="Keep trying, smart star! 💜";
+}
+function sing(){
+speak("Little Stars, Shine Bright! Clap your hands, jump up high. Wave your hands up to the sky. Dance together, laugh and play. Little stars shine every day!");
+}
+function showAfrican(){
+document.getElementById("africanStory").style.display="block";
+}
 </script>
 </body>
   </html>
